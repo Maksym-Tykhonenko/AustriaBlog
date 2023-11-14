@@ -1,16 +1,43 @@
 import React ,{useState, useEffect} from "react";
 import { StyleSheet,View, Text,TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native';
 
+import { uid } from 'uid';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import MapView, { Marker, Circle } from 'react-native-maps';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 //import { austria } from "../data/austria";
 
 
 
 const AustriaCityDitails = ({ navigation, route }) => {
-    const [phottto, setPhoto] = useState([]);
-    console.log('photo==>',phottto)
-    const { city , name, description, location, admission, tips,  } = route.params;
+   
+    const [coutry, setCoutry] = useState(route.params)
+    const { city, name, description, location, admission, tips, photo } = coutry;
+    const [selectPhoto, setSelectPhoto] = useState(null);
     
-    {/**  */ }useEffect(() => {
+    const ImagePicer = () => {
+        let options = {
+            storageOptios: {
+                path: 'image',
+            }
+        };
+        
+        launchImageLibrary(options, response => {
+            if (!response.didCancel) {
+                console.log('response==>', response.assets[0].uri);
+                
+                //const newSelectedPhotos = [...selectPhoto, { sel: response.assets[0].uri }];
+                //console.log('newSelectedPhotos==>', newSelectedPhotos)
+                setSelectPhoto(response.assets[0].uri);
+
+            } else {
+                console.log('Вибір скасовано');
+            }
+        });
+    };
+    {/** 
+     const [photo, setPhoto] = useState([]);
+    useEffect(() => {
         getImgs()
     }, []);
 
@@ -30,49 +57,74 @@ const AustriaCityDitails = ({ navigation, route }) => {
                 console.error(`Error: ${e}`);
             })
         
-    };
+    }; */ }
 
-
+  
 
     return (
-        <SafeAreaView style={styles.conteiner}>
-            <ScrollView style={{ paddingTop: 20 }}>
+        <SafeAreaView style={{...styles.conteiner, flex: 1}}>
+            <ScrollView style={{ paddingTop: 20, flex:1 }}>
                 <View style={styles.scrollView}>
-                    {phottto.map((item) => {
-                        const index = phottto.indexOf(item)
+                    {photo.map((item) => {
+                        const index = photo.indexOf(item)
                         return (
-                    
                             <Image
+                                key={uid()}
                                 style={{
-                                    width: index === 0 ? '100%' : 160,
-                                    height: index === 0 ? 250 : 100,
+                                    width: index === 0 ? '100%' : '48%',
+                                    height: index === 0 ? 200 : 100,
                                     marginBottom: 10,
                                     borderRadius: 10,
-                                    resizeMode: 'cover'
+                                    resizeMode: 'cover',
+                                    
                             
                                 }}
-                                source={{ uri: item.webformatURL }} />
+                                source={item.pict} />
                 
                         )
                     })}
+                     
+                    {selectPhoto &&
+                        <Image
+                            style={{ width: '48%', height: 100, borderRadius: 10, }}
+                            source={{ uri: selectPhoto }} />
+                    }
+                   
+                    <TouchableOpacity
+                        onPress={() => {
+                            ImagePicer()
+                        }}
+                        style={styles.addPhotoBtn}
+                    >
+                        <Text style={{ fontWeight: 'bold', fontSize: 17, }}>+ add <View style={{}}><Text style={{ fontWeight: 'bold', fontSize: 17 }}>photo</Text></View></Text>
+                    </TouchableOpacity>
+                    
                 </View>
-                {/** <Image
-                    style={{width: '100%', height: 200}} webformatURL
-                /> */}
-                <View><Text>City: <Text>{city}</Text></Text></View>
-                <View><Text>Name: <Text>{name}</Text></Text></View>
-                <View><Text>Location: <Text>{location}</Text></Text></View>
-                <View><Text>Description: <Text>{description}</Text></Text></View>
-                <View><Text>Admission: <Text>{admission}</Text></Text></View>
-                <View style={{marginBottom: 50}}><Text>Tips: <Text>{tips}</Text></Text></View>
+                
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>City: <Text style={{ fontWeight: 'normal' }}>{city}</Text></Text></View>
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>Name: <Text style={{ fontWeight: 'normal' }}>{name}</Text></Text></View>
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>Location: <Text style={{ fontWeight: 'normal' }}>{location}</Text></Text></View>
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>Description: <Text style={{ fontWeight: 'normal' }}>{description}</Text></Text></View>
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>Admission: <Text style={{ fontWeight: 'normal' }}>{admission}</Text></Text></View>
+                <View style={{ marginBottom: 30 }}><Text style={{ fontWeight: 'bold' }}>Tips: <Text style={{ fontWeight: 'normal' }}>{tips}</Text></Text></View>
               
+                <MapView
+                    style={{ flex: 1 , height: 200, marginBottom: 50, borderRadius: 10}}
+                    initialRegion={{
+                        latitude: 37.78825,
+                        longitude: -122.4324,
+                        latitudeDelta: 0.0922,
+                        longitudeDelta: 0.0421,
+                    }}
+                />
+                
             </ScrollView>
 
             {/**BtnBack */}
             <TouchableOpacity
                 onPress={() => navigation.navigate('AustriaDetails')}
                 style={{ position: 'absolute', bottom: 10, right: 10 }}>
-                <Text style={{ fontWeight: 'bold' }}>{`<==`}</Text>
+                <Ionicons name='arrow-undo-sharp' style={{ color: '#000', fontSize: 35 }} />
             </TouchableOpacity>
         </SafeAreaView>
     );
@@ -82,16 +134,33 @@ const AustriaCityDitails = ({ navigation, route }) => {
 export default AustriaCityDitails;
 
 const styles = StyleSheet.create({
-  conteiner: {
-    flex: 1,
-    backgroundColor: "#fff",
+    conteiner: {
+        flex: 1,
         marginHorizontal: 20,
-    position: 'relative'
-  },
-scrollView: {
+        position: 'relative'
+    },
+    scrollView: {
         flexDirection: 'row',
-    flexWrap: 'wrap',
+        flexWrap: 'wrap',
         justifyContent: 'space-between',
-      }
+       
+    },
+    addPhotoBtn: {
+        borderWidth: 2,
+        borderRadius: 10,
+        height: 98,
+        width: '46%',
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 10,
+        marginRight: 8,
+        shadowOffset: { width: 3, height: 4 },
+        shadowOpacity: 0.8,
+        elevation: 9,
+        borderColor: '#ccc',
+    },
+    descriptionSubCont: {
+        marginBottom: 5
+    }
         
-})
+});

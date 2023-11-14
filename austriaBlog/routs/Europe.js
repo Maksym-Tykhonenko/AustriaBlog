@@ -8,6 +8,7 @@ import EuropeHome from "../europeScreens/EuropeHome";
 import EuropeDitails from "../europeScreens/EuropeDitails";
 import AustriaDitails from "../europeScreens/AustriaDitails";
 import AustriaCityDitails from "../europeScreens/AustriaCityDitails";
+import Map from "../europeScreens/Map";
 
 const Europe = ({ navigation }) => {
  
@@ -17,6 +18,7 @@ const Europe = ({ navigation }) => {
       <Stack.Screen options={{ headerShown: false }} name="EuropeDitails" component={EuropeDitails} />
       <Stack.Screen options={{ headerShown: false }} name="AustriaDetails" component={AustriaDitails} />
       <Stack.Screen options={{ headerShown: false }} name="AustriaCityDetails" component={AustriaCityDitails} />
+      <Stack.Screen options={{ headerShown: false }} name="Map" component={Map}/>
     </Stack.Navigator>
   );
  {/**

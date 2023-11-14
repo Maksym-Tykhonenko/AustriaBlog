@@ -1,6 +1,6 @@
 import React  from "react";
 import { StyleSheet,View, Text,TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { austria } from "../data/austria";
 
 const AustriaDitails = ({ navigation }) => {
@@ -32,7 +32,7 @@ const AustriaDitails = ({ navigation }) => {
             <TouchableOpacity
                 onPress={() => navigation.navigate('EuropeHome')}
                 style={{ position: 'absolute', bottom: 10, right: 10 }}>
-                <Text style={{ fontWeight: 'bold' }}>{`<==`}</Text>
+                <Ionicons name='arrow-undo-sharp' style={{ color: '#000', fontSize: 35 }} />
             </TouchableOpacity>
         </SafeAreaView>
     );40

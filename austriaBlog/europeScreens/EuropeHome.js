@@ -20,6 +20,14 @@ const EuropeHome = ({ navigation }) => {
                             style={styles.btn}>
                             <Text style={styles.btnText}>Austria</Text>
                     </TouchableOpacity>
+
+                    {/**
+                    <TouchableOpacity
+                            onPress={() => { navigation.navigate("Map") }}
+                            style={styles.btn}>
+                            <Text style={styles.btnText}>Map</Text>
+                    </TouchableOpacity>
+                     */}
                     
                     {countrys && (countrys.map((item) =>
                         <TouchableOpacity

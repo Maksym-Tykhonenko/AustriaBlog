@@ -8,7 +8,12 @@ export const austria = [
         description: `Beethovenhaus is a historic house where Ludwig van Beethoven stayed during the summer of 1821. The house showcases memorabilia and exhibits related to Beethoven's time in Baden. Visitors can explore the rooms where Beethoven composed and find unique artifacts from his life.`,
         admission: 'Paid',
         tips: `Capture the essence of Beethoven's creativity by visiting during the quieter hours, preferably in the morning. The soft morning light enhances the historical ambiance of the house.`,
-        photo: require('../accets/beethovenhaus1.jpeg'),
+        photo: [
+            { pict: require('../accets/beethovenhaus1.jpeg'), },
+            { pict: require('../accets/ArsElectronicaCenter3.jpeg'), },
+            
+              
+        ] 
     },
     {
         id: '2',
