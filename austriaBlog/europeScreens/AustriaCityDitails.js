@@ -12,7 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 const AustriaCityDitails = ({ navigation, route }) => {
    
     const [coutry, setCoutry] = useState(route.params)
-    const { city, name, description, location, admission, tips, photo } = coutry;
+    const { latitude, longitude, city, name, description, location, admission, tips, photo } = coutry;
     const [selectPhoto, setSelectPhoto] = useState(null);
     
     const ImagePicer = () => {
@@ -68,7 +68,7 @@ const AustriaCityDitails = ({ navigation, route }) => {
                 style={{flex:1}}
                 source={require('../accets/backgr.png')}
             >
-<View></View>
+
             <ScrollView style={{ paddingTop: 20,paddingHorizontal:20, flex: 1 }}>
                 <View style={styles.scrollView}>
                     {photo.map((item) => {
@@ -119,8 +119,8 @@ const AustriaCityDitails = ({ navigation, route }) => {
                 <MapView
                     style={{ flex: 1, height: 200, marginBottom: 50, borderRadius: 10 }}
                     initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
+                        latitude: latitude ,
+                        longitude: longitude,
                         latitudeDelta: 0.0922,
                         longitudeDelta: 0.0421,
                     }}

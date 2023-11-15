@@ -14,14 +14,14 @@ const AustriaDitails = ({ navigation }) => {
 
                 <ScrollView style={{ paddingTop: 40, }}>
                 
-                    {austria.map(({ id, city, name, description, location, admission, tips, photo }) =>
+                    {austria.map(({ id, city, name, description, location, admission, tips, photo, latitude, longitude }) =>
                         <View
                             key={id}
                             style={{ margin: 8, justifyContent: 'center', alignItems: 'center' }}>
                             <View>
                                 <TouchableOpacity
                                     style={styles.btn}
-                                    onPress={() => navigation.navigate('AustriaCityDetails', { city, name, description, location, admission, tips, photo })}
+                                    onPress={() => navigation.navigate('AustriaCityDetails', { city, name, description, location, admission, tips, photo, latitude,longitude })}
                                 >
                                     <Text style={styles.btnText}>{city}</Text>
                                 </TouchableOpacity>

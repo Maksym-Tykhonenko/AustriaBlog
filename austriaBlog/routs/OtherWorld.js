@@ -1,12 +1,17 @@
 import React  from "react";
-import {StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+
+import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
+
+import OtherWorldHome from "../WorldScree/OtherWorldHome";
 
 
 const OtherWorld = () => {
   return (
-    <View style={styles.conteiner}>
-      <Text>OtherWorld!</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen options={{headerShown: false}} name="OtherWorldHome" component={OtherWorldHome} />
+    </Stack.Navigator>
   );
 };
 

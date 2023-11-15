@@ -1,5 +1,5 @@
 import React, {useState}  from "react";
-import { TextInput,SafeAreaView,StyleSheet,View, Text, TouchableOpacity, Modal, ScrollView, ImageBackground } from 'react-native';
+import {Switch, TextInput,SafeAreaView,StyleSheet,View, Text, TouchableOpacity, Modal, ScrollView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import { country } from '../data/country';
@@ -7,19 +7,22 @@ import { uid } from "uid";
 
 const EuropeHome = ({ navigation }) => {
     const [countrysList, setCountrysList] = useState('');
-    console.log('countrysList==>', countrysList)
+    //console.log('countrysList==>', countrysList)
     ///////////////////////////////
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [location, setLocation] = useState('');
-    const [admission, setAdmission] = useState('');///
+    const [admission, setAdmission] = useState(false);///
     const [tips, setTips] = useState('')
     const [image, setImage] = useState(null);///
     ///////////////////////////////
     const [isModalVisible, setIsModalVisible] = useState(false);
-    //console.log('country==>', country);
+    
+
+    console.log('admission==>', admission);
+    const toggleSwitch = () => setAdmission(previousState => !previousState);
 
     const handlAddCountry = () => {
 
@@ -29,14 +32,31 @@ const EuropeHome = ({ navigation }) => {
             name,
             description,
             location,
-            //admission,
+            admission,
             tips,
             id: uid(),
         };
-        setCountrysList([newCountry, ...countrysList])
+        setCountrysList([newCountry, ...countrysList]);
 
+        setCountry('');
+        setCity('');
+        setName('');
+        setDescription('');
+        setLocation('');
+        setTips('');
 
         setIsModalVisible(false)
+    };
+
+    const closeModal = () => {
+
+        setIsModalVisible(false);
+        setCountry('');
+        setCity('');
+        setName('');
+        setDescription('');
+        setLocation('');
+        setTips('');
     }
     
 
@@ -47,8 +67,12 @@ const EuropeHome = ({ navigation }) => {
                 style={{ flex: 1 }}
                 source={require('../accets/backgr.png')}
             >
+                <View style={{width: '100%', alignItems: 'center', marginTop: 20}}>
+                    <Text style={{color: '#fff', fontSize: 30, fontWeight: 'bold', }}>Europe :</Text>
+                </View>
 
                 <View style={styles.counryBtnConteier}>
+                    
                     <ScrollView>
                         <TouchableOpacity
                             onPress={() => { navigation.navigate("AustriaDetails") }}
@@ -71,10 +95,10 @@ const EuropeHome = ({ navigation }) => {
                             <Text style={styles.btnText}>Austria</Text>
                         </TouchableOpacity>
                     
-                        {countrysList && (countrysList.map(({city, country,description, id, location,name,tips,}) =>
+                        {countrysList && (countrysList.map(({ city, country, description, id, location, name, tips,admission }) =>
                             <TouchableOpacity
                                 key={id}
-                                onPress={() =>  navigation.navigate("EuropeDitails", {city, country,description, id, location,name,tips}) }
+                                onPress={() => navigation.navigate("EuropeDitails", { city, country, description, location, name, tips ,admission})}
                                 style={styles.btn}>
                                 <Text style={styles.btnText}>{country}</Text>
                             </TouchableOpacity>
@@ -188,20 +212,24 @@ const EuropeHome = ({ navigation }) => {
                                     />
                                 </View>
 
-                                <View>
-                                    <TextInput
-                                        placeholder="..."
-                                        placeholderTextColor='#000'
-                                        //value={attractionNotes}
-                                        //onChangeText={setAttractionNotes}
-                                        multiline={true}
-                                        style={{
-                                            shadowOffset: { width: 3, height: 4 },
-                                            shadowOpacity: .8,
-                                            elevation: 9,
-                                            borderColor: '#ccc', marginBottom: 15, paddingLeft: 10, fontSize: 20, borderWidth: 1, borderRadius: 10, color: '#fff', width: 250, height: 40
-                                        }}
+                                <View style={{ marginBottom: 10, display: 'flex', flexDirection: 'row', alignItems: 'baseline' }}>
+
+                                    <Text style={{ fontSize: 25, paddingBottom: 8, marginRight: 5 }}>Admission</Text>
+
+                                    <Switch
+                                        style={{ width: 100, borderWidth: 1, borderColor: '#fff', borderRadius: 15, width: 52 }}
+                                        trackColor={{ false: '#81b0ff', true: '#767577' }}
+                                        thumbColor={'#f5dd4b'}
+                                        //ios_backgroundColor="#3e3e3e" !isEnabled ? '#f4f3f4' :
+                                        onValueChange={toggleSwitch}
+                                        value={admission}
                                     />
+                                    {admission ? (
+                                        <Text style={{ fontSize: 25, paddingBottom: 8, marginLeft: 5 ,fontWeight: 'bold'}}>Paid</Text>
+                                    ) : (
+                                        <Text style={{ fontSize: 25, paddingBottom: 8, marginLeft: 5 ,fontWeight: 'bold'}}>Free</Text>
+                                    )}
+                                    
                                 </View>
 
                                 <View>
@@ -243,15 +271,10 @@ const EuropeHome = ({ navigation }) => {
 
                             </ScrollView>
 
-
-
-
                         </View>
-
-                     
                     
                         <TouchableOpacity
-                            onPress={() => setIsModalVisible(false)}
+                            onPress={() => closeModal()}
                             style={styles.btnAddCountry}>
                             <Text style={styles.btnText}>X</Text>
                         </TouchableOpacity>
@@ -273,7 +296,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     counryBtnConteier: {
-        marginTop: 50,
+        //marginTop: 50,
         alignItems: 'center'
     },
     btn: {
