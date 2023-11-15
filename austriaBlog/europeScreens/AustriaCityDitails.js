@@ -1,5 +1,5 @@
 import React ,{useState, useEffect} from "react";
-import { StyleSheet,View, Text,TouchableOpacity, ScrollView, SafeAreaView, Image } from 'react-native';
+import { StyleSheet,View, Text,TouchableOpacity, ScrollView, SafeAreaView, Image, ImageBackground } from 'react-native';
 
 import { uid } from 'uid';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
@@ -62,8 +62,14 @@ const AustriaCityDitails = ({ navigation, route }) => {
   
 
     return (
-        <SafeAreaView style={{...styles.conteiner, flex: 1}}>
-            <ScrollView style={{ paddingTop: 20, flex:1 }}>
+        <SafeAreaView style={{ ...styles.conteiner, flex: 1 }}>
+
+            <ImageBackground
+                style={{flex:1}}
+                source={require('../accets/backgr.png')}
+            >
+<View></View>
+            <ScrollView style={{ paddingTop: 20,paddingHorizontal:20, flex: 1 }}>
                 <View style={styles.scrollView}>
                     {photo.map((item) => {
                         const index = photo.indexOf(item)
@@ -76,6 +82,7 @@ const AustriaCityDitails = ({ navigation, route }) => {
                                     marginBottom: 10,
                                     borderRadius: 10,
                                     resizeMode: 'cover',
+                                    
                                     
                             
                                 }}
@@ -96,20 +103,21 @@ const AustriaCityDitails = ({ navigation, route }) => {
                         }}
                         style={styles.addPhotoBtn}
                     >
-                        <Text style={{ fontWeight: 'bold', fontSize: 17, }}>+ add <View style={{}}><Text style={{ fontWeight: 'bold', fontSize: 17 }}>photo</Text></View></Text>
+                        <Text style={{ fontWeight: 'bold', fontSize: 17, color: '#fff'}}>+ add photo</Text>
                     </TouchableOpacity>
                     
                 </View>
                 
-                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>City: <Text style={{ fontWeight: 'normal' }}>{city}</Text></Text></View>
-                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>Name: <Text style={{ fontWeight: 'normal' }}>{name}</Text></Text></View>
-                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>Location: <Text style={{ fontWeight: 'normal' }}>{location}</Text></Text></View>
-                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>Description: <Text style={{ fontWeight: 'normal' }}>{description}</Text></Text></View>
-                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold' }}>Admission: <Text style={{ fontWeight: 'normal' }}>{admission}</Text></Text></View>
-                <View style={{ marginBottom: 30 }}><Text style={{ fontWeight: 'bold' }}>Tips: <Text style={{ fontWeight: 'normal' }}>{tips}</Text></Text></View>
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold',color: '#fff' }}>City: <Text style={{ fontWeight: 'normal' }}>{city}</Text></Text></View>
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold',color: '#fff' }}>Name: <Text style={{ fontWeight: 'normal' }}>{name}</Text></Text></View>
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold',color: '#fff' }}>Location: <Text style={{ fontWeight: 'normal' }}>{location}</Text></Text></View>
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold',color: '#fff' }}>Description: <Text style={{ fontWeight: 'normal' }}>{description}</Text></Text></View>
+                <View style={styles.descriptionSubCont}><Text style={{ fontWeight: 'bold',color: '#fff' }}>Admission: <Text style={{ fontWeight: 'normal' }}>{admission}</Text></Text></View>
+                <View style={{ marginBottom: 30 }}><Text style={{ fontWeight: 'bold',color: '#fff' }}>Tips: <Text style={{ fontWeight: 'normal' }}>{tips}</Text></Text></View>
               
+                {/** Map */}
                 <MapView
-                    style={{ flex: 1 , height: 200, marginBottom: 50, borderRadius: 10}}
+                    style={{ flex: 1, height: 200, marginBottom: 50, borderRadius: 10 }}
                     initialRegion={{
                         latitude: 37.78825,
                         longitude: -122.4324,
@@ -124,8 +132,10 @@ const AustriaCityDitails = ({ navigation, route }) => {
             <TouchableOpacity
                 onPress={() => navigation.navigate('AustriaDetails')}
                 style={{ position: 'absolute', bottom: 10, right: 10 }}>
-                <Ionicons name='arrow-undo-sharp' style={{ color: '#000', fontSize: 35 }} />
+                <Ionicons name='arrow-undo-sharp' style={{ color: '#fff', fontSize: 35 }} />
             </TouchableOpacity>
+</ImageBackground>
+
         </SafeAreaView>
     );
 };
@@ -136,7 +146,7 @@ export default AustriaCityDitails;
 const styles = StyleSheet.create({
     conteiner: {
         flex: 1,
-        marginHorizontal: 20,
+        //marginHorizontal: 20,
         position: 'relative'
     },
     scrollView: {
