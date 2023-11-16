@@ -6,7 +6,7 @@ import { austria } from "../data/austria";
 const AustriaDitails = ({ navigation }) => {
     console.log(austria)
     return (
-        <SafeAreaView style={styles.conteiner}>
+        <View style={styles.conteiner}>
 
             <ImageBackground
                 source={require('../accets/backgr.png')}
@@ -40,7 +40,7 @@ const AustriaDitails = ({ navigation }) => {
                 </TouchableOpacity>
             </ImageBackground>
 
-        </SafeAreaView>
+        </View>
     );
 };
 

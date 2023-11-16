@@ -1,16 +1,17 @@
-import React ,{useState} from "react";
+import React ,{useState, useEffect} from "react";
 import {ImageBackground,TouchableOpacity,TextInput, StyleSheet,View, Text, SafeAreaView, ScrollView, KeyboardAvoidingView, Image } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { uid } from 'uid';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MyProfile = () => {
   const [writingUsername, setWritingUsername] = useState('');
   const [username, setUsername] = useState('');
   const [avatar, setAvatar] = useState(null);
-  const [writeAttractionsBlock, setWriteAttractionsBlock] = useState(false);
+  const [showWriteAttractionsBlock, setShowWriteAttractionsBlock] = useState(false);
   ////////
   const [selectedData, setSelectedData] = useState('');
   const [city, setCity] = useState('')
@@ -23,24 +24,69 @@ const MyProfile = () => {
   //console.log('attractionAddres==>', attractionAddres);
   console.log('attractionList==>', attractionList);
 
-  const ImagePicer = () => {
-        let options = {
-            storageOptios: {
-                path: 'image',
-            }
-        };
-        launchImageLibrary(options, response => {
-            if (!response.didCancel) {
-                console.log('response==>', response.assets[0].uri);
-                
-                //const newSelectedPhotos = [...selectPhoto, { sel: response.assets[0].uri }];
-                //console.log('newSelectedPhotos==>', newSelectedPhotos)
-                setAvatar(response.assets[0].uri);
+  ///////////////////////////////////////////
+  useEffect(() => {
+    getData(); // дані завантажені з AsyncStorage
+  }, []);
 
-            } else {
-                console.log('Вибір скасовано');
-            }
-        });
+  useEffect(() => {
+    setData(); // Запис даних у AsyncStorage при зміні bankName, info або photo
+  }, [username, avatar, attractionList]);
+
+  // Функція для збереження даних у AsyncStorage
+  const setData = async () => {
+    try {
+      const data = {
+        username,
+        avatar,
+        attractionList,
+      }
+      const jsonData = JSON.stringify(data);
+      await AsyncStorage.setItem("MyProfile", jsonData);
+      console.log('Дані збережено AsyncStorage');
+    } catch (e) {
+      console.log('Помилка збереження даних:', e);
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const jsonData = await AsyncStorage.getItem('MyProfile');
+      if (jsonData !== null) {
+        const parsedData = JSON.parse(jsonData);
+        console.log('parsedData==>', parsedData);
+        setAvatar(parsedData.avatar);
+        setUsername(parsedData.username);
+        setAttractionList(parsedData.attractionList);
+        console.log('дані завантажені з AsyncStorage');
+      }
+            
+    } catch (e) {
+      console.log('Помилка отримання даних:', e);
+    }
+  };
+
+  ////////////////////////////////////////////////////////////////////
+  
+
+  const ImagePicer = () => {
+    let options = {
+      storageOptios: {
+        path: 'image',
+      }
+    };
+    launchImageLibrary(options, response => {
+      if (!response.didCancel) {
+        console.log('response==>', response.assets[0].uri);
+                
+        //const newSelectedPhotos = [...selectPhoto, { sel: response.assets[0].uri }];
+        //console.log('newSelectedPhotos==>', newSelectedPhotos)
+        setAvatar(response.assets[0].uri);
+
+      } else {
+        console.log('Вибір скасовано');
+      }
+    });
   };
   
   const hadleAttractioSave = () => {
@@ -60,18 +106,18 @@ const MyProfile = () => {
     setCity('');
     setSelectedData('');
 
-    setWriteAttractionsBlock(false)
+    setShowWriteAttractionsBlock(false)
   };
 
-//<Text style={{ fontSize: 25, color: '#000' }}>Save</Text>
+  //<Text style={{ fontSize: 25, color: '#000' }}>Save</Text>
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+    <View style={{ flex: 1, backgroundColor: '#fff', }}>
 
       <ImageBackground
         style={{ flex: 1 }}
         source={require('../accets/backgr.png')}
       >
-        <ScrollView style={{ marginHorizontal: 20, marginTop: 20 }}>
+        <ScrollView style={{ marginHorizontal: 20, marginTop: 40 }}>
 
           <KeyboardAvoidingView
             style={{ flex: 1 }}
@@ -83,10 +129,10 @@ const MyProfile = () => {
               <View style={styles.usernameBlock}>
 
                 {username ? (
-                  <View><Text style={{ marginBottom: 10, fontSize: 35, fontWeight: 'bold',color:'#fff' }}>{username}</Text></View>
+                  <View><Text style={{ marginBottom: 10, fontSize: 35, fontWeight: 'bold', color: '#fff' }}>{username}</Text></View>
                 ) : (
                   <View style={{ marginBottom: 15, }}>
-                    <Text style={{ marginLeft: 5, marginBottom: 10, fontWeight: 'bold', fontSize: 25,color:'#fff' }}>Add name :</Text>
+                    <Text style={{ marginLeft: 5, marginBottom: 10, fontWeight: 'bold', fontSize: 25, color: '#fff' }}>Add name :</Text>
                     <View style={{ position: 'relative', width: 250, }}>
                       <TextInput
                         placeholderTextColor='#000'
@@ -144,9 +190,9 @@ const MyProfile = () => {
               {/** writeAttractionsBlock */}
               <View style={styles.attractionsBlock}>
 
-                {!writeAttractionsBlock ? (
+                {!showWriteAttractionsBlock ? (
                   <TouchableOpacity
-                    onPress={() => { setWriteAttractionsBlock(true) }}
+                    onPress={() => { setShowWriteAttractionsBlock(true) }}
                     style={styles.btnNewPlase}
                   >
                     <Text style={{ fontSize: 25, color: '#fff' }}>Add new place{' '}
@@ -157,7 +203,7 @@ const MyProfile = () => {
                   <View style={{ marginBottom: 15, position: 'relative' }}>
                     <View>
                       <TouchableOpacity
-                        onPress={() => { setWriteAttractionsBlock(false) }}
+                        onPress={() => { setShowWriteAttractionsBlock(false) }}
                         style={{
                           position: 'absolute', right: 0,
                           borderRadius: 50,
@@ -172,7 +218,7 @@ const MyProfile = () => {
                           borderColor: '#fff',
                         }}
                       >
-                        <AntDesign name='close' style={{color:'#fff', fontSize: 24 }} />
+                        <AntDesign name='close' style={{ color: '#fff', fontSize: 24 }} />
                       </TouchableOpacity>
                       
                       <TextInput
@@ -309,7 +355,7 @@ const MyProfile = () => {
 
         </ScrollView>
       </ImageBackground>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,9 +1,10 @@
-import React ,{useState} from "react";
+import React ,{useState, useEffect} from "react";
 import { TextInput,StyleSheet,View, Text,TouchableOpacity, ImageBackground, SafeAreaView, Image, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import MapView, { Marker, Circle } from 'react-native-maps';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { austria } from "../data/austria";
 
@@ -11,36 +12,76 @@ const EuropeDitails = ({ navigation, route }) => {
   // route.params
   const [selectPhoto, setSelectPhoto] = useState(null);
   const [coutry, setCoutry] = useState(route.params)
-  const { city, description, location, name, tips , admission} = coutry;
+  const { city, description, location, name, tips, admission } = coutry;
+  
+  ///////////////////////////////////////////
+  useEffect(() => {
+    getData(); // дані завантажені з AsyncStorage
+  }, []);
 
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
-  console.log('latitude longitude==>', latitude, longitude);
+  useEffect(() => {
+    setData(); // Запис даних у AsyncStorage при зміні bankName, info або photo
+  }, [selectPhoto]);
+
+  // Функція для збереження даних у AsyncStorage
+  const setData = async () => {
+    try {
+      const data = {
+        selectPhoto,
+      }
+      const jsonData = JSON.stringify(data);
+      await AsyncStorage.setItem("EuropeDitails", jsonData);
+      console.log('Дані збережено AsyncStorage');
+    } catch (e) {
+      console.log('Помилка збереження даних:', e);
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const jsonData = await AsyncStorage.getItem('EuropeDitails');
+      if (jsonData !== null) {
+        const parsedData = JSON.parse(jsonData);
+        console.log('parsedData==>', parsedData);
+        setSelectPhoto(parsedData.selectPhoto);
+        console.log('дані завантажені з AsyncStorage');
+      }
+            
+    } catch (e) {
+      console.log('Помилка отримання даних:', e);
+    }
+  };
+
+  ////////////////////////////////////////////////////////////////////
+
+  //const [latitude, setLatitude] = useState('');
+  //const [longitude, setLongitude] = useState('');
+  //console.log('latitude longitude==>', latitude, longitude);
 
   const ImagePicer = () => {
-        let options = {
-            storageOptios: {
-                path: 'image',
-            }
-        };
-        
-        launchImageLibrary(options, response => {
-            if (!response.didCancel) {
-                console.log('response==>', response.assets[0].uri);
-                
-                //const newSelectedPhotos = [...selectPhoto, { sel: response.assets[0].uri }];
-                //console.log('newSelectedPhotos==>', newSelectedPhotos)
-                setSelectPhoto(response.assets[0].uri);
-
-            } else {
-                console.log('Вибір скасовано');
-            }
-        });
+    let options = {
+      storageOptios: {
+        path: 'image',
+      }
     };
+        
+    launchImageLibrary(options, response => {
+      if (!response.didCancel) {
+        console.log('response==>', response.assets[0].uri);
+                
+        //const newSelectedPhotos = [...selectPhoto, { sel: response.assets[0].uri }];
+        //console.log('newSelectedPhotos==>', newSelectedPhotos)
+        setSelectPhoto(response.assets[0].uri);
+
+      } else {
+        console.log('Вибір скасовано');
+      }
+    });
+  };
 
 
   return (
-    <SafeAreaView style={styles.conteiner}>
+    <View style={styles.conteiner}>
 
       <ImageBackground
         style={{ flex: 1 }}
@@ -48,7 +89,7 @@ const EuropeDitails = ({ navigation, route }) => {
       >
         
         <ScrollView>
-          <View style={{ position: 'relative', paddingVertical: 20, paddingHorizontal: 20, flex: 1 }}>
+          <View style={{ position: 'relative', paddingVertical: 40, paddingHorizontal: 20, flex: 1 }}>
           
             <View style={{ marginBottom: 15 }}>
               {!selectPhoto ? (
@@ -123,37 +164,7 @@ const EuropeDitails = ({ navigation, route }) => {
            
 
             </View>
-            {/**
-            <View>
-
-              <TextInput
-                placeholderTextColor='#000'
-                placeholder="latitude..."
-                value={latitude}
-                onChangeText={setLatitude}
-                multiline={true}
-                style={{
-                  shadowOffset: { width: 3, height: 4 },
-                  shadowOpacity: .8,
-                  elevation: 9,
-                  borderColor: '#ccc', marginBottom: 15, paddingLeft: 10, fontSize: 20, borderWidth: 1, borderRadius: 10, color: '#fff', width: 250, height: 40
-                }}
-              />
-              
-              <TextInput
-                placeholderTextColor='#000'
-                placeholder="longitude..."
-                value={longitude}
-                onChangeText={setLongitude}
-                multiline={true}
-                style={{
-                  shadowOffset: { width: 3, height: 4 },
-                  shadowOpacity: .8,
-                  elevation: 9,
-                  borderColor: '#ccc', marginBottom: 15, paddingLeft: 10, fontSize: 20, borderWidth: 1, borderRadius: 10, color: '#fff', width: 250, height: 40
-                }}
-              />
-            </View> */}
+          
 
             {/** Map */}
             <MapView
@@ -169,6 +180,7 @@ const EuropeDitails = ({ navigation, route }) => {
           
           </View>
         </ScrollView>
+
         <TouchableOpacity
           onPress={() => navigation.navigate('EuropeHome')}
           style={{ position: 'absolute', bottom: 10, right: 10 }}>
@@ -177,7 +189,7 @@ const EuropeDitails = ({ navigation, route }) => {
        
       </ImageBackground>
       
-    </SafeAreaView>
+    </View>
   );
 };
 

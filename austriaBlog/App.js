@@ -34,24 +34,33 @@ const useRoute = (isFatch) => {
     }}>
       
       <Tab.Screen name="My Profile" component={MyProfile} options={{
+        tabBarActiveBackgroundColor: '#36212c',
+        tabBarInactiveBackgroundColor: '#8c1633',
+        tabBarLabelStyle: {color: '#fff'},
         tabBarIcon: ({ focused }) => {
           return (
-            <AntDesign name='profile' style={{color: focused ? '#00D9FF' : 'grey', fontSize: 25}} />
+            <AntDesign name='profile' style={{color: focused ? '#fff' : '#fff', fontSize: 25}} />
           )
         }
       }}/>
         
       <Tab.Screen name="Europe" component={Europe} options={{
+        tabBarActiveBackgroundColor: '#36212c',
+        tabBarInactiveBackgroundColor: '#8c1633',
+        tabBarLabelStyle: {color: '#fff'},
         tabBarIcon: ({ focused }) => {
           return (
-            <FontAwesome name='euro' style={{color: focused ? '#00D9FF' : 'grey', fontSize: 25}} />
+            <FontAwesome name='euro' style={{color: focused ? '#fff' : '#fff', fontSize: 25}} />
           )
         }
       }}/>
       <Tab.Screen name="Other World" component={OtherWorld} options={{
+        tabBarActiveBackgroundColor: '#36212c',
+        tabBarInactiveBackgroundColor: '#8c1633',
+        tabBarLabelStyle: {color: '#fff'},
         tabBarIcon: ({ focused }) => {
           return (
-            <Fontisto name='world' style={{color: focused ? '#00D9FF' : 'grey', fontSize: 25}} />
+            <Fontisto name='world' style={{color: focused ? '#fff' : '#fff', fontSize: 25}} />
           )
         }
       }}/>

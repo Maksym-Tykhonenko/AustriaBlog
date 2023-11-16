@@ -35,41 +35,20 @@ const AustriaCityDitails = ({ navigation, route }) => {
             }
         });
     };
-    {/** 
-     const [photo, setPhoto] = useState([]);
-    useEffect(() => {
-        getImgs()
-    }, []);
-
-    const BASE_URL = 'https://pixabay.com/api/';
-    const API_KEY = '29676821-2dfd501c3768e552959bc01fb';
-    // searchOption = 'image_type=photo&orientation=horizontal'; &image_type=photo
-    const PER_PAGE = 3;
-
-    const getImgs = () => {
-        fetch(`${BASE_URL}?key=${API_KEY}&q=${city}&per_page=${PER_PAGE}`)
-            .then((res) => {
-               return res.json()
-            }).then(data => {
-                console.log('data==>', data)
-                setPhoto(data.hits)
-            }).catch(e => {
-                console.error(`Error: ${e}`);
-            })
-        
-    }; */ }
+    
 
   
 
     return (
-        <SafeAreaView style={{ ...styles.conteiner, flex: 1 }}>
+
+        <View style={{ ...styles.conteiner, flex: 1 }}>
 
             <ImageBackground
                 style={{flex:1}}
                 source={require('../accets/backgr.png')}
             >
 
-            <ScrollView style={{ paddingTop: 20,paddingHorizontal:20, flex: 1 }}>
+            <ScrollView style={{ paddingTop: 40,paddingHorizontal:20, flex: 1 }}>
                 <View style={styles.scrollView}>
                     {photo.map((item) => {
                         const index = photo.indexOf(item)
@@ -136,7 +115,7 @@ const AustriaCityDitails = ({ navigation, route }) => {
             </TouchableOpacity>
 </ImageBackground>
 
-        </SafeAreaView>
+        </View>
     );
 };
 

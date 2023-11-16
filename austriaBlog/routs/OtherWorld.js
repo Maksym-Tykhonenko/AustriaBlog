@@ -5,12 +5,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 import OtherWorldHome from "../WorldScree/OtherWorldHome";
+import OtherWorldDitail from "../WorldScree/OtherWorldDitail";
 
 
 const OtherWorld = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen options={{headerShown: false}} name="OtherWorldHome" component={OtherWorldHome} />
+      <Stack.Screen options={{ headerShown: false }} name="OtherWorldHome" component={OtherWorldHome} />
+      <Stack.Screen options={{ headerShown: false }} name="OtherWorldDetail" component={OtherWorldDitail} />
     </Stack.Navigator>
   );
 };

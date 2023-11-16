@@ -1,6 +1,7 @@
-import React, {useState}  from "react";
+import React, {useState, useEffect}  from "react";
 import {Switch, TextInput,SafeAreaView,StyleSheet,View, Text, TouchableOpacity, Modal, ScrollView, ImageBackground } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { country } from '../data/country';
 import { uid } from "uid";
@@ -19,9 +20,46 @@ const EuropeHome = ({ navigation }) => {
     const [image, setImage] = useState(null);///
     ///////////////////////////////
     const [isModalVisible, setIsModalVisible] = useState(false);
+    ///////////////////////////////////////////
+    useEffect(() => {
+        getData(); // дані завантажені з AsyncStorage
+    }, []);
+
+    useEffect(() => {
+        setData(); // Запис даних у AsyncStorage при зміні bankName, info або photo
+    }, [countrysList]);
+
+    // Функція для збереження даних у AsyncStorage
+    const setData = async () => {
+        try {
+            const data = {
+                countrysList,
+            }
+            const jsonData = JSON.stringify(data);
+            await AsyncStorage.setItem("EuropeHome", jsonData);
+            console.log('Дані збережено AsyncStorage');
+        } catch (e) {
+            console.log('Помилка збереження даних:', e);
+        }
+    };
+
+    const getData = async () => {
+        try {
+            const jsonData = await AsyncStorage.getItem('EuropeHome');
+            if (jsonData !== null) {
+                const parsedData = JSON.parse(jsonData);
+                console.log('parsedData==>', parsedData);
+                setCountrysList(parsedData.countrysList);
+                console.log('дані завантажені з AsyncStorage');
+            }
+            
+        } catch (e) {
+            console.log('Помилка отримання даних:', e);
+        }
+    };
     
 
-    console.log('admission==>', admission);
+    //console.log('admission==>', admission);
     const toggleSwitch = () => setAdmission(previousState => !previousState);
 
     const handlAddCountry = () => {
@@ -61,14 +99,14 @@ const EuropeHome = ({ navigation }) => {
     
 
     return (
-        <SafeAreaView style={styles.conteiner}>
+        <View style={styles.conteiner}>
 
             <ImageBackground
                 style={{ flex: 1 }}
                 source={require('../accets/backgr.png')}
             >
-                <View style={{width: '100%', alignItems: 'center', marginTop: 20}}>
-                    <Text style={{color: '#fff', fontSize: 30, fontWeight: 'bold', }}>Europe :</Text>
+                <View style={{ width: '100%', alignItems: 'center', marginTop: 40 }}>
+                    <Text style={{ color: '#fff', fontSize: 30, fontWeight: 'bold', }}>Europe :</Text>
                 </View>
 
                 <View style={styles.counryBtnConteier}>
@@ -95,10 +133,10 @@ const EuropeHome = ({ navigation }) => {
                             <Text style={styles.btnText}>Austria</Text>
                         </TouchableOpacity>
                     
-                        {countrysList && (countrysList.map(({ city, country, description, id, location, name, tips,admission }) =>
+                        {countrysList && (countrysList.map(({ city, country, description, id, location, name, tips, admission }) =>
                             <TouchableOpacity
                                 key={id}
-                                onPress={() => navigation.navigate("EuropeDitails", { city, country, description, location, name, tips ,admission})}
+                                onPress={() => navigation.navigate("EuropeDitails", { city, country, description, location, name, tips, admission })}
                                 style={styles.btn}>
                                 <Text style={styles.btnText}>{country}</Text>
                             </TouchableOpacity>
@@ -225,9 +263,9 @@ const EuropeHome = ({ navigation }) => {
                                         value={admission}
                                     />
                                     {admission ? (
-                                        <Text style={{ fontSize: 25, paddingBottom: 8, marginLeft: 5 ,fontWeight: 'bold'}}>Paid</Text>
+                                        <Text style={{ fontSize: 25, paddingBottom: 8, marginLeft: 5, fontWeight: 'bold' }}>Paid</Text>
                                     ) : (
-                                        <Text style={{ fontSize: 25, paddingBottom: 8, marginLeft: 5 ,fontWeight: 'bold'}}>Free</Text>
+                                        <Text style={{ fontSize: 25, paddingBottom: 8, marginLeft: 5, fontWeight: 'bold' }}>Free</Text>
                                     )}
                                     
                                 </View>
@@ -283,7 +321,7 @@ const EuropeHome = ({ navigation }) => {
               
             </ImageBackground>
 
-        </SafeAreaView>
+        </View>
     );
 };
 
@@ -324,7 +362,7 @@ const styles = StyleSheet.create({
     
     btnAddCountry: {
         position: 'absolute',
-        top: -20,
+        top: 0,
         right: 15,
         borderWidth: 2,
         borderRadius: 10,
