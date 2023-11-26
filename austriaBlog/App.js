@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
-import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import React,{useState, useEffect, useRef} from "react";
+import {Animated, StyleSheet, View, Text } from "react-native";
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -72,11 +72,97 @@ const useRoute = (isFatch) => {
 
 const App = () => {
 
+   ///////////////////////////////////// код лоудера in sportBlog
+  const [loaderIsLoaded, setLoaderIsLoaded] = useState(false);
+
+  const ChangeInView = props => {
+    // const fadeAnim = useRef(new Animated.Image(require('../../acets/loader1.jpg'))).current;
+    
+    const firstAnimImg = useRef(new Animated.Value(1)).current; // Initial value for opacity: 0 to 1
+    useEffect(() => {
+      Animated.timing(firstAnimImg, {
+        toValue: 0,
+        duration: 4500,
+        useNativeDriver: true,
+      }).start();
+    }, []);
+
+    const secondAnimImg = useRef(new Animated.Value(0)).current;// Initial value for opacity: 1 to 0
+    useEffect(() => {
+      Animated.timing(secondAnimImg, {
+        toValue: 1,
+        duration: 4500,
+        useNativeDriver: true,
+      }).start();
+    }, []);
+
+    const firdAnimImg = useRef(new Animated.Value(0)).current; // Initial value for opacity: 0 to 1
+    useEffect(() => {
+      setTimeout(() => {
+        Animated.timing(firdAnimImg, {
+          toValue: 1,
+          duration: 4500,
+          useNativeDriver: true,
+        }).start();
+      }, 3500);
+
+      setTimeout(() => {
+        setLoaderIsLoaded(true)
+      }, 9500);
+      
+    }, []);
+
+    return (
+      <View style={{ position: 'relative', flex: 1 }}>
+        <Animated.Image
+          source={require('./accets/loader/loader_1.png')}// Special animatable View
+          style={{
+            ...props.style,
+            opacity: firstAnimImg,
+            //width: 'auto',
+            height: '100%'  // Bind opacity to animated value
+          }} />
+        <Animated.Image
+          source={require('./accets/loader/loader_2.png')}// Special animatable View
+          style={{
+            ...props.style,
+            opacity: secondAnimImg,
+            //width: '100%',
+            height: '100%',
+            position: 'absolute'// Bind opacity to animated value
+          }} />
+         <Animated.Image
+          source={require('./accets/loader/loader_3.png')}// Special animatable View
+          style={{
+            ...props.style,
+            opacity: firdAnimImg,
+            //width: '100%',
+            height: '100%',
+            position: 'absolute'// Bind opacity to animated value
+          }} />
+      </View>
+    
+    );
+  };
+  /////////////////////////////////////
+
   const rout = useRoute(false)
 
   return (
     <NavigationContainer>
-      {rout}
+      {!loaderIsLoaded ? (
+        <ChangeInView
+          style={{
+            width: '100%',
+            //height: 50,
+            backgroundColor: 'powderblue',
+          }}>
+       
+        </ChangeInView>
+      ) : (
+        rout
+      )}
+      
     </NavigationContainer>
   );
 };

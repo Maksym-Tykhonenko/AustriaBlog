@@ -9,11 +9,39 @@ export const austria = [
         admission: 'Paid',
         tips: `Capture the essence of Beethoven's creativity by visiting during the quieter hours, preferably in the morning. The soft morning light enhances the historical ambiance of the house.`,
         photo: [
-            { pict: require('../accets/beethovenhaus1.jpeg'), },
-            { pict: require('../accets/beethovenhaus2.jpeg'), },
+            { pict: require('../accets/baden/baden_1.png'), },
+            { pict: require('../accets/baden/baden_2.png'), },
         ],
         latitude: 47.473314703961535,
         longitude: 8.308814064417698,
+    },
+    {
+        id: '10',
+        city: 'Velden',
+        name: 'Schloss Velden',
+        location: 'Velden am Wörthersee',
+        description: 'Schloss Velden is a historic castle turned luxury hotel on the shores of Lake Wörthersee. Its elegant architecture and lakeside location make it a picturesque setting for photography, and the manicured gardens add to its charm.',
+        admission: 'Free (hotel facilities may have fees)',
+        tips: `Capture the castle's reflection in the lake during the calm early morning hours. The soft light enhances the beauty of the surroundings.`,
+        photo: [{ pict: require('../accets/velden/velden_1.png') },
+        { pict: require('../accets/velden/velden_2.png') }],
+        latitude: 46.612965800587695, 
+        longitude: 14.042345653855392
+    
+    },
+    {
+        id: '8',
+        city: 'Salzburg',
+        name: 'Hohensalzburg Fortress',
+        location: 'Festungsbahn, Salzburg',
+        description: `Dominating the skyline, Hohensalzburg Fortress is one of Europe's largest medieval castles. Explore its towers, courtyards, and museums while enjoying panoramic views of Salzburg and the surrounding Alps.`,
+        admission: 'Paid',
+        tips: 'Capture the fortress from the Old Town for a classic shot. Climb to the top during sunset to capture the warm hues of the setting sun casting a golden glow on the city.',
+        photo: [{ pict: require('../accets/salzburg/salzburg_1.png') },
+        { pict: require('../accets/salzburg/salzburg_2.png') }],
+        latitude:47.796423763632404,
+        longitude:  13.046089393253093
+    
     },
     {
         id: '2',
@@ -38,8 +66,9 @@ export const austria = [
         description: `Schlossberg, meaning "Castle Hill," offers panoramic views of Graz and houses the iconic Uhrturm (Clock Tower). The hill is dotted with gardens, sculptures, and historic sites. Visitors can take a leisurely stroll or use the funicular to reach the top.`,
         admission: 'Free (funicular may have a fee)',
         tips: `For a breathtaking view of the city, capture the sunset from the top of the hill. The warm hues of the setting sun create a magical atmosphere.`,
-        photo: [{ pict: require('../accets/Schlossberg1.jpeg') },
-        { pict: require('../accets/Schlossberg2.jpeg') }],
+        photo: [
+            {pict: require('../accets/Schlossberg1.jpeg')},
+            { pict: require('../accets/Schlossberg2.jpeg') }],
         latitude: 47.06035635942724, 
         longitude: 15.426956079065103,
     },
@@ -98,20 +127,7 @@ export const austria = [
         longitude:14.2852406355823
     
     },
-    {
-        id: '8',
-        city: 'Salzburg',
-        name: 'Hohensalzburg Fortress',
-        location: 'Festungsbahn, Salzburg',
-        description: `Dominating the skyline, Hohensalzburg Fortress is one of Europe's largest medieval castles. Explore its towers, courtyards, and museums while enjoying panoramic views of Salzburg and the surrounding Alps.`,
-        admission: 'Paid',
-        tips: 'Capture the fortress from the Old Town for a classic shot. Climb to the top during sunset to capture the warm hues of the setting sun casting a golden glow on the city.',
-        photo: [{ pict: require('../accets/HohensalzburgFortress1.jpeg') },
-        { pict: require('../accets/HohensalzburgFortress2.jpeg') }],
-        latitude:47.796423763632404,
-        longitude:  13.046089393253093
     
-    },
     {
         id: '9',
         city: 'Seefeld',
@@ -126,20 +142,7 @@ export const austria = [
         longitude: 11.227510255952811
     
     },
-    {
-        id: '10',
-        city: 'Velden',
-        name: 'Schloss Velden',
-        location: 'Velden am Wörthersee',
-        description: 'Schloss Velden is a historic castle turned luxury hotel on the shores of Lake Wörthersee. Its elegant architecture and lakeside location make it a picturesque setting for photography, and the manicured gardens add to its charm.',
-        admission: 'Free (hotel facilities may have fees)',
-        tips: `Capture the castle's reflection in the lake during the calm early morning hours. The soft light enhances the beauty of the surroundings.`,
-        photo: [{ pict: require('../accets/SchlossVelden1.jpeg') },
-        { pict: require('../accets/SchlossVelden2.jpeg') }],
-        latitude: 46.612965800587695, 
-        longitude: 14.042345653855392
     
-    },
     {
         id: '11',
         city: 'Wien (Vienna)',
