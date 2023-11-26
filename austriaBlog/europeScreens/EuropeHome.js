@@ -149,8 +149,8 @@ const EuropeHome = ({ navigation }) => {
                 {/**btnModalOpen */}
                 <TouchableOpacity
                     onPress={() => setIsModalVisible(true)}
-                    style={styles.btnAddCountry}>
-                    <Text style={styles.btnText}>+</Text>
+                    style={ {...styles.btnAddCountry, borderRadius: 50}}>
+                    <Text style={{fontSize: 30, color: '#ccc', fontWeight: 'bold'}}>+</Text>
                 </TouchableOpacity>
           
                 {/**ModalAddCountry */}
@@ -292,7 +292,7 @@ const EuropeHome = ({ navigation }) => {
                                         onPress={() => handlAddCountry()}
                                         style={{
                                             borderWidth: 2,
-                                            borderRadius: 10,
+                                            borderRadius: 50,
                                             height: 40,
                                             width: 100,
                                             justifyContent: "center",
@@ -302,7 +302,7 @@ const EuropeHome = ({ navigation }) => {
                                             elevation: 9,
                                             borderColor: '#ccc'
                                         }}>
-                                        <Text style={{ fontWeight: 'bold', color: '#fff' }}>ADD</Text>
+                                        <Text style={{ fontWeight: 'bold', color: '#fff',  }}>ADD</Text>
                                     </TouchableOpacity>
                                 </View>
                                 
@@ -313,8 +313,8 @@ const EuropeHome = ({ navigation }) => {
                     
                         <TouchableOpacity
                             onPress={() => closeModal()}
-                            style={styles.btnAddCountry}>
-                            <Text style={styles.btnText}>X</Text>
+                            style={{...styles.btnAddCountry, borderRadius: 50}}>
+                            <Text style={{...styles.btnText}}>X</Text>
                         </TouchableOpacity>
                     </View>
                 </Modal>

@@ -145,7 +145,7 @@ const OtherWorldHome = ({ navigation }) => {
                         top: 0,
                         right: 15,
                         borderWidth: 2,
-                        borderRadius: 10,
+                        borderRadius: 50,
                         height: 50,
                         width: 50,
                         justifyContent: "center",
@@ -302,7 +302,7 @@ const OtherWorldHome = ({ navigation }) => {
                                         onPress={() => handlAddCountry()}
                                         style={{
                                             borderWidth: 2,
-                                            borderRadius: 10,
+                                            borderRadius: 50,
                                             height: 40,
                                             width: 100,
                                             justifyContent: "center",
@@ -329,7 +329,7 @@ const OtherWorldHome = ({ navigation }) => {
                                 top: -20,
                                 right: 15,
                                 borderWidth: 2,
-                                borderRadius: 10,
+                                borderRadius: 50,
                                 height: 50,
                                 width: 50,
                                 justifyContent: "center",
