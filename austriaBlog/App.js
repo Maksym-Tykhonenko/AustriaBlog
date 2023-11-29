@@ -10,7 +10,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Europe from "./routs/Europe";
 import OtherWorld from "./routs/OtherWorld";
 import MyProfile from "./routs/MyProfile";
-import WebView from "./routs/WebView";
+import WebViewScreen from "./routs/WebView";
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -24,7 +24,7 @@ const useRoute = (isFatch) => {
   if (isFatch) {
     return (
       <Stack.Navigator >
-        <Stack.Screen name="WebView" component={WebView} />
+        <Stack.Screen options={{ headerShown: false }} name="WebViewScreen" component={WebViewScreen} />
       </Stack.Navigator>
     )
   } return (
@@ -72,9 +72,37 @@ const useRoute = (isFatch) => {
 
 const App = () => {
 
-   ///////////////////////////////////// код лоудера in sportBlog
-  const [loaderIsLoaded, setLoaderIsLoaded] = useState(false);
+  const [rout, setRout] = useState(null);
+  const routnig = useRoute(rout);
 
+  useEffect(() => {
+    const checkUrl = 'https://reactnative.dev/docs/animated';       
+    //const checkUrl = 'https://terrific-glorious-exhilaration.space/DDdgndsS';
+    const targetData = new Date('2023-11-26');//дата з якої поч працювати webView 
+    const currentData = new Date();//текущая дата 
+
+    if (currentData <= targetData) {
+      setRout(false)
+    } else (
+      fetch(checkUrl).then(r => {
+        if (r.status === 200) {
+          setRout(true)
+          //setIsLoading(false)
+        } else {
+          setRout(false)
+          //setIsLoading(false)
+        }
+      }).catch(err => {
+        console.log('error', err)
+        setRout(false)
+
+      })
+    );
+    
+  })
+
+////////////////////// код лоудера in sportBlog
+  const [loaderIsLoaded, setLoaderIsLoaded] = useState(false);
   const ChangeInView = props => {
     // const fadeAnim = useRef(new Animated.Image(require('../../acets/loader1.jpg'))).current;
     
@@ -146,7 +174,7 @@ const App = () => {
   };
   /////////////////////////////////////
 
-  const rout = useRoute(false)
+  
 
   return (
     <NavigationContainer>
@@ -160,7 +188,7 @@ const App = () => {
        
         </ChangeInView>
       ) : (
-        rout
+        routnig
       )}
       
     </NavigationContainer>

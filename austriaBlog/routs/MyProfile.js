@@ -215,7 +215,8 @@ const MyProfile = () => {
                           shadowOpacity: .8,
                           elevation: 9,
                           borderWidth: 1,
-                          borderColor: '#fff',
+                          borderColor: '#36212c',
+                          backgroundColor: '#36212c'
                         }}
                       >
                         <AntDesign name='close' style={{ color: '#fff', fontSize: 24 }} />
@@ -391,10 +392,12 @@ const styles = StyleSheet.create({
   btnNewPlase: {
     marginLeft: 4,
     //marginBottom: 15,
-    borderColor: '#000',
-    borderRadius: 30,
+    borderColor: '#36212c',
+    borderRadius: 10,
+    borderWidth: 1,
+    backgroundColor: '#36212c',
     width: 250,
-    height: 40,
+    height: 50,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000', // Колір тіні на iOS
@@ -407,8 +410,8 @@ const styles = StyleSheet.create({
   },
   btnSaveAttraction: {
     marginLeft: 4,
-    //marginBottom: 15,
-    borderColor: '#fff',
+    backgroundColor: '#36212c',
+    borderColor: '#36212c',
     borderRadius: 30,
     borderWidth: 1,
     width: 120,
