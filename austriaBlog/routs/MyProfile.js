@@ -7,6 +7,7 @@ import { uid } from 'uid';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 const MyProfile = () => {
   const [writingUsername, setWritingUsername] = useState('');
   const [username, setUsername] = useState('');
@@ -66,9 +67,8 @@ const MyProfile = () => {
     }
   };
 
-  ////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////
   
-
   const ImagePicer = () => {
     let options = {
       storageOptios: {
