@@ -7,6 +7,22 @@ import { WebView } from 'react-native-webview';
 import ReactNativeIdfaAaid, { AdvertisingInfoResponse } from '@sparkfabrik/react-native-idfa-aaid';
 import appsFlyer from 'react-native-appsflyer';
 
+{/**
+получить разрешение на пуши - > 
+
+инициализировать аппсфлаер - > 
+
+получить нейминг от апсфлаера -> 
+
+прикрепить этот нейминг к ссылке в sub_id_1,2,3 в формате «саб1_саб2_саб3»
+
+получить рекламный айди девайса и апсфлаер айди юзера
+
+прикрепить их к ссылке в последующие саб айди
+
+открыть вебвью.
+*/}
+
 
 const WebViewScreen = () => {
 
@@ -22,6 +38,7 @@ const WebViewScreen = () => {
     ReactNativeIdfaAaid.getAdvertisingInfo()
       .then((res) =>
         !res.isAdTrackingLimited ? setIdfa(res.id) : setIdfa(null),
+        console.log('idfa==>', idfa)
       )
       .catch((err) => {
         console.log(err);
@@ -54,29 +71,9 @@ const WebViewScreen = () => {
       .catch(error => {
         console.error('Помилка ініціалізації AppsFlyer:', error);
       });
-    //2
-    function getAppsFlyerNaming() {
-      return new Promise((resolve, reject) => {
-        const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
-          res => {
-            if (JSON.parse(res.data.is_first_launch) === true) {
-              const naming = `${res.data.campaign}_${res.data.af_adset}_${res.data.af_ad}`;
-              resolve(naming);
-            } else {
-              resolve(null)
-            }
-          }
-        );
-      });
-    }
-
-    getAppsFlyerNaming().then(naming => {
-      setAppsFlyerNaming(naming);
-
-    });
-
-    //3
-    function GetUIDAppsflyer() {
+    
+    //2 FUNCTION
+     function GetUIDAppsflyer() {
       return new Promise((resolve, reject) => {
         appsFlyer.getAppsFlyerUID((err, appsFlyerUID) => {
           if (err) {
@@ -100,11 +97,38 @@ const WebViewScreen = () => {
         console.error('Помилка отримання UID AppsFlyer:', error);
       });
     
+    //3
+   function getAppsFlyerNaming() {
+      return new Promise((resolve, reject) => {
+        const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
+          res => {
+            if (JSON.parse(res.data.is_first_launch) === true) {
+              //console.log('res.data==>', res.data); 
+              const naming = `${res.data.campaign}_${res.data.af_adset}_${res.data.af_ad}_&afos=${res.data.af_os}`;
+              resolve(naming);
+            } else {
+              resolve(null)
+              //console.log('data==>', res.data); 
+            }
+          }
+        );
+      });
+    };
+    getAppsFlyerNaming().then(naming => {
+      console.log('naming==>', naming)
+      setAppsFlyerNaming(naming);
+
+    }).catch(error => {
+        console.error('Помилка отримання інформації про атрибуцію:', error);
+      });
+
+    
   }, []);
 
   //const product = `https://reactnative.dev/docs/animated`;
   //const product = `https://joa3.com/MMqDZ5P4?advertising_id=${idfa}`;
-  const product = `https://joa3.com/MMqDZ5P4?sub_id1=${appsFlyerNaming}&sub_id2=${idfa}_${uid}`;
+  
+  const product = `https://joa3.com/MMqDZ5P4?sub_id1=${appsFlyerNaming}&sub_id2=${idfa}&sub_id3=${uid}`;
 
   //ф-ція для повернення назад
   const goBack = () => {

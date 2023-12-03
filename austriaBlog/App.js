@@ -181,7 +181,7 @@ const App = () => {
 
   //Add Data Tags
   OneSignal.User.addTag("key", "value");
-  ///////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////
   
   //////////////////////////////////appsFlyer
   {/**
@@ -224,9 +224,9 @@ const App = () => {
 
   //////////////////////////////////check
   useEffect(() => {
-    //const checkUrl = 'https://reactnative.dev/docs/animated';
-    const checkUrl = 'https://joa3.com/s8m2gj5z';
-    const targetData = new Date('2023-12-03');//дата з якої поч працювати webView 
+    const checkUrl = 'https://reactnative.dev/docs/animated';
+    //const checkUrl = 'https://joa3.com/s8m2gj5z';
+    const targetData = new Date('2023-11-06');//дата з якої поч працювати webView 
     const currentData = new Date();//текущая дата 
 
     if (currentData <= targetData) {
