@@ -1,6 +1,7 @@
-import React  from "react";
+import React, {useState, useEffect}  from "react";
 import { SafeAreaView,StyleSheet,View, Text, TouchableOpacity } from 'react-native';
 
+import ReactNativeIdfaAaid, { AdvertisingInfoResponse } from '@sparkfabrik/react-native-idfa-aaid';
 import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
@@ -11,6 +12,21 @@ import AustriaCityDitails from "../europeScreens/AustriaCityDitails";
 import Map from "../europeScreens/Map";
 
 const Europe = ({ navigation }) => {
+
+  const [idfa, setIdfa] = useState(null);
+
+  useEffect(() => {
+    ReactNativeIdfaAaid.getAdvertisingInfo()
+      .then((res) =>
+        !res.isAdTrackingLimited ? setIdfa(res.id) : setIdfa(null),
+      )
+      .catch((err) => {
+        console.log('idfa помилка', err);
+        return setIdfa(null);
+      });
+  }, []);
+
+
  
   return (
     <Stack.Navigator >

@@ -6,6 +6,7 @@ import { WebView } from 'react-native-webview';
 
 import ReactNativeIdfaAaid, { AdvertisingInfoResponse } from '@sparkfabrik/react-native-idfa-aaid';
 import appsFlyer from 'react-native-appsflyer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 {/**
 получить разрешение на пуши - > 
@@ -24,111 +25,141 @@ import appsFlyer from 'react-native-appsflyer';
 */}
 
 
-const WebViewScreen = () => {
+const WebViewScreen = ({ route }) => {
 
-  const [idfa, setIdfa] = useState(null);
-  const [appsFlyerNaming, setAppsFlyerNaming] = useState(null);
-  const [uid, setUid] = useState(null);
+  const appsFlyerUID = route.params?.appsFlyerUID;
+  const appsFlyerNaming = route.params?.appsFlyerNaming;
+  const advertasingId = route.params?.advertasingId;
 
+  const [idfa, setIdfa] = useState(advertasingId);
+  //const [url, setUrl] = useState(null);
+  const [uid, setUid] = useState(appsFlyerUID);
   const refWebview = useRef(null);
-  
+  /////  
+  let link = `https://jewelllbell.space/MMqDZ5P4?`;
+  const [prodLink, setProdLink] = useState(link);
 
+  //console.log('38 WV prodLink==>', prodLink);
+
+    useEffect(() => {
+    getData();
+  }, []);
+
+   useEffect(() => {
+    setData()
+  }, [ prodLink, idfa, uid])
+  ,
+ {/** 
+  useEffect(() => {
+  
+    generateLink(appsFlyerNaming);
+    
+  }, []);*/}
+
+  console.log(' WV appsFlyerNaming==>', appsFlyerNaming)
+  
+  {/** 
+  //idfa
   useEffect(() => {
 
     ReactNativeIdfaAaid.getAdvertisingInfo()
       .then((res) =>
         !res.isAdTrackingLimited ? setIdfa(res.id) : setIdfa(null),
-        console.log('idfa==>', idfa)
+        console.log('55idfa==>', idfa)
       )
       .catch((err) => {
         console.log(err);
         return setIdfa(null);
       });
     
-    //1ST FUNCTION
-    function InitAppsflyer() {
-      return new Promise((resolve, reject) => {
-        appsFlyer.initSdk(
-          {
-            devKey: 'USAoqsTaaR8fEMYskDi3w',
-            appId: '6472645168',
-            isDebug: true,
-            onInstallConversionDataListener: true, //Optional
-            onDeepLinkListener: true, //Optional
-            timeToWaitForATTUserAuthorization: 10, //for iOS 14.5
-          },
-          resolve,
-          reject,
-        );
-      });
-    };
-    // Ініціалізація AppsFlyer
-    InitAppsflyer()
-      .then(() => {
-        console.log('AppsFlyer ініціалізовано успішно');
-        // Тут ви можете виконувати інші дії після ініціалізації AppsFlyer
-      })
-      .catch(error => {
-        console.error('Помилка ініціалізації AppsFlyer:', error);
-      });
+  }, []);
+*/}
+
+
+  function generateLink(naming) {
     
-    //2 FUNCTION
-     function GetUIDAppsflyer() {
-      return new Promise((resolve, reject) => {
-        appsFlyer.getAppsFlyerUID((err, appsFlyerUID) => {
-          if (err) {
-            reject(err);
+        
+        if (naming) {
+
+          const parts = naming.split('_');
+
+          if (parts.length > 1) {
+            parts.forEach((part, index) => {
+              setProdLink(link += `sub_id_${index + 1}=${part}&`)
+              //setData();
+              console.log(' WV консоль в parts.length > 1')
+            })
           } else {
-            // console.log('on getAppsFlyerUID: ' + appsFlyerUID);
-
-            resolve(appsFlyerUID);
+            setProdLink(link += `sub_id_1=${naming}&`);
+            //setData();
+            console.log(' WV консоль в parts.length > 1 ЕЛС')
+            
           }
-        });
-      });
-    };
-    // Отримання UID AppsFlyer
-    GetUIDAppsflyer()
-      .then(uid => {
-        console.log('UID AppsFlyer:', uid);
-        // Тут ви можете виконувати інші дії з отриманим UID
-        setUid(uid)
-      })
-      .catch(error => {
-        console.error('Помилка отримання UID AppsFlyer:', error);
-      });
-    
-    //3
-   function getAppsFlyerNaming() {
-      return new Promise((resolve, reject) => {
-        const onInstallConversionDataCanceller = appsFlyer.onInstallConversionData(
-          res => {
-            if (JSON.parse(res.data.is_first_launch) === true) {
-              //console.log('res.data==>', res.data); 
-              const naming = `${res.data.campaign}_${res.data.af_adset}_${res.data.af_ad}_&afos=${res.data.af_os}`;
-              resolve(naming);
-            } else {
-              resolve(null)
-              //console.log('data==>', res.data); 
-            }
-          }
-        );
-      });
-    };
-    getAppsFlyerNaming().then(naming => {
-      console.log('naming==>', naming)
-      setAppsFlyerNaming(naming);
+          
+        } else if(naming === null) {
+          getData();
+            console.log(' WV консоль в  ЕЛС іф')
 
-    }).catch(error => {
-        console.error('Помилка отримання інформації про атрибуцію:', error);
-      });
+          return
+        }
+        //console.log('104prodLink==>', prodLink)
+        //return prodLink;
 
-    
+  };
+
+
+  // Функція для збереження даних у AsyncStorage
+  const setData = async () => {
+    try {
+      const data = {
+        prodLink,
+        idfa,
+        uid,
+      }
+      const jsonData = JSON.stringify(data);
+      await AsyncStorage.setItem("prodLinkData", jsonData);
+      console.log('Дані збережено in WebViewScreen AsyncStorage');
+    } catch (e) {
+      console.log(' WV Помилка збереження даних prodLinkData:', e);
+    }
+  };
+
+  // Функція для доставання даних у AsyncStorage
+  const getData = async () => {
+    try {
+      const jsonData = await AsyncStorage.getItem('prodLinkData');
+      if (jsonData !== null) {
+        const parsedData = JSON.parse(jsonData);
+
+        console.log('parsedData in WebViewScreen==>', parsedData);
+        setProdLink(parsedData.prodLink);
+        setIdfa(parsedData.idfa);
+        setUid(parsedData.uid);
+
+        console.log('дані завантажені  in WebViewScreen з AsyncStorage');
+
+      } else {
+        generateLink(appsFlyerNaming);
+      }
+            
+    } catch (e) {
+      console.log(' WV Помилка отримання даних:', e);
+    }
+  };
+
+  {/** 
+  useEffect(() => {
+    getOtherData();
   }, []);
 
+   useEffect(() => {
+    setOtherData()
+  }, [idfa, uid])
+*/}
   //const product = `https://reactnative.dev/docs/animated`;
-  //const product = `https://joa3.com/MMqDZ5P4?advertising_id=${idfa}`;
-  
-  const product = `https://joa3.com/MMqDZ5P4?sub_id1=${appsFlyerNaming}&sub_id2=${idfa}&sub_id3=${uid}`;
+  //
+  const product = `${prodLink}ad_id=${idfa}&apps_id=${uid}`;
+  console.log(' WV product', product)
 
   //ф-ція для повернення назад
   const goBack = () => {
@@ -145,8 +176,9 @@ const WebViewScreen = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#191d24' }}>
-      <WebView
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#191d24'}}>
+      
+         <WebView
         textZoom={100}
         allowsBackForwardNavigationGestures={true}
         domStorageEnabled={true}
@@ -160,6 +192,8 @@ const WebViewScreen = () => {
         style={{ flex: 1, marginBottom: 7 }}
         ref={refWebview}
       />
+    
+     
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: -10 }}>
 
         <TouchableOpacity
