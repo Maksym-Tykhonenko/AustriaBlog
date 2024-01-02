@@ -1,7 +1,6 @@
 import React, {useState, useEffect}  from "react";
 import { SafeAreaView,StyleSheet,View, Text, TouchableOpacity } from 'react-native';
 
-import ReactNativeIdfaAaid, { AdvertisingInfoResponse } from '@sparkfabrik/react-native-idfa-aaid';
 import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
@@ -11,57 +10,19 @@ import AustriaDitails from "../europeScreens/AustriaDitails";
 import AustriaCityDitails from "../europeScreens/AustriaCityDitails";
 import Map from "../europeScreens/Map";
 
-const Europe = ({ navigation }) => {
-
-  const [idfa, setIdfa] = useState(null);
-
-  useEffect(() => {
-    ReactNativeIdfaAaid.getAdvertisingInfo()
-      .then((res) =>
-        !res.isAdTrackingLimited ? setIdfa(res.id) : setIdfa(null),
-      )
-      .catch((err) => {
-        console.log('idfa помилка', err);
-        return setIdfa(null);
-      });
-  }, []);
-
-
+const Europe = ({ route }) => {
  
+
   return (
     <Stack.Navigator >
-      <Stack.Screen options={{headerShown: false}} name="EuropeHome" component={EuropeHome} />
+      <Stack.Screen options={{ headerShown: false }} name="EuropeHome" component={EuropeHome} />
       <Stack.Screen options={{ headerShown: false }} name="EuropeDitails" component={EuropeDitails} />
       <Stack.Screen options={{ headerShown: false }} name="AustriaDetails" component={AustriaDitails} />
       <Stack.Screen options={{ headerShown: false }} name="AustriaCityDetails" component={AustriaCityDitails} />
-      <Stack.Screen options={{ headerShown: false }} name="Map" component={Map}/>
+      <Stack.Screen options={{ headerShown: false }} name="Map" component={Map} />
     </Stack.Navigator>
   );
- {/**
-return (
-        <SafeAreaView style={styles.conteiner}>
-            <View>
-                <TouchableOpacity
-                onPress={() => navigation.navigate('EuropeDitails')}
-                style={styles.btn}>
-                <Text style={styles.btnText}>Austria</Text>
-            </TouchableOpacity>
-            </View>
-            
-            <View>
-                <TouchableOpacity style={styles.btn}>
-                <Text style={styles.btnText}>Add country +</Text>
-            </TouchableOpacity>
-            </View>
-
-            <Modal>
-                <View>
-
-                </View>
-            </Modal>
-            
-          
-        </SafeAreaView>)*/}
+ 
 };
 
 

@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>25</string>
+	<string>69</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -41,8 +41,6 @@
 	<string>Your location is required for benefits for you</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Requirement: Select image/video from photos</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>The app uses user tracking to display relevant advertising and collect analytics that help us improve the user experience.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
