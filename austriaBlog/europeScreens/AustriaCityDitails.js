@@ -6,16 +6,56 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import MapView, { Marker, Circle } from 'react-native-maps';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 //import { austria } from "../data/austria";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
 const AustriaCityDitails = ({ navigation, route }) => {
    
-    const [coutry, setCoutry] = useState(route.params)
-    const { latitude, longitude, city, name, description, location, admission, tips, photo } = coutry;
-    const [selectPhoto, setSelectPhoto] = useState(null);
+    const [coutrycoutry, setCoutryCoutry] = useState(route.params)
+    const { latitude, longitude, city, name, description, location, admission, tips, photo } = coutrycoutry;
+    const [selectPhotoselectPhoto, setSelectPhotoSelectPhoto] = useState(null);
+
+    useEffect(() => {
+        getData(); // дані завантажені з AsyncStorage
+    }, []);
+
+    useEffect(() => {
+        setData(); // Запис даних у AsyncStorage при зміні bankName, info або photo
+    }, [selectPhotoselectPhoto]);
+
+    // Функція для збереження даних у AsyncStorage
+    const setData = async () => {
+        try {
+            const data = {
+                selectPhotoselectPhoto,
+            }
+            const jsonData = JSON.stringify(data);
+            await AsyncStorage.setItem(`AustriaCityDitails${city}`, jsonData);
+            console.log('Дані збережено AsyncStorage');
+        } catch (e) {
+            console.log('Помилка збереження даних:', e);
+        }
+    };
+
+    const getData = async () => {
+        try {
+            const jsonData = await AsyncStorage.getItem(`AustriaCityDitails${city}`);
+            if (jsonData !== null) {
+                const parsedData = JSON.parse(jsonData);
+                console.log('parsedData==>', parsedData);
+                setSelectPhotoSelectPhoto(parsedData.selectPhotoselectPhoto);
+                console.log('дані завантажені з AsyncStorage');
+            }
+            
+        } catch (e) {
+            console.log('Помилка отримання даних:', e);
+        }
+    };
     
-    const ImagePicer = () => {
+
+    
+    const ImagePicerImagePicer = () => {
         let options = {
             storageOptios: {
                 path: 'image',
@@ -26,9 +66,9 @@ const AustriaCityDitails = ({ navigation, route }) => {
             if (!response.didCancel) {
                 console.log('response==>', response.assets[0].uri);
                 
-                //const newSelectedPhotos = [...selectPhoto, { sel: response.assets[0].uri }];
+                //const newSelectedPhotos = [...selectPhotoselectPhoto, { sel: response.assets[0].uri }];
                 //console.log('newSelectedPhotos==>', newSelectedPhotos)
-                setSelectPhoto(response.assets[0].uri);
+                setSelectPhotoSelectPhoto(response.assets[0].uri);
 
             } else {
                 console.log('Вибір скасовано');
@@ -45,7 +85,7 @@ const AustriaCityDitails = ({ navigation, route }) => {
 
             <ImageBackground
                 style={{flex:1}}
-                source={require('../accets/backgr.png')}
+                source={require('../accets/newBgr.jpeg')}
             >
 
             <ScrollView style={{ paddingTop: 40,paddingHorizontal:20, flex: 1 }}>
@@ -70,15 +110,15 @@ const AustriaCityDitails = ({ navigation, route }) => {
                         )
                     })}
                      
-                    {selectPhoto &&
+                    {selectPhotoselectPhoto &&
                         <Image
                             style={{ width: '48%', height: 100, borderRadius: 10, }}
-                            source={{ uri: selectPhoto }} />
+                            source={{ uri: selectPhotoselectPhoto }} />
                     }
                    
                     <TouchableOpacity
                         onPress={() => {
-                            ImagePicer()
+                            ImagePicerImagePicer()
                         }}
                         style={styles.addPhotoBtn}
                     >

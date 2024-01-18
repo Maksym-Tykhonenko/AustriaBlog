@@ -29,7 +29,7 @@ const OtherWorldDitail = ({ navigation, route }) => {
                 selectPhoto,
             }
             const jsonData = JSON.stringify(data);
-            await AsyncStorage.setItem("OtherWorldDitail", jsonData);
+            await AsyncStorage.setItem(`OtherWorldDitail${city}`, jsonData);
             console.log('Дані збережено AsyncStorage');
         } catch (e) {
             console.log('Помилка збереження даних:', e);
@@ -38,7 +38,7 @@ const OtherWorldDitail = ({ navigation, route }) => {
 
     const getData = async () => {
         try {
-            const jsonData = await AsyncStorage.getItem('OtherWorldDitail');
+            const jsonData = await AsyncStorage.getItem(`OtherWorldDitail${city}`);
             if (jsonData !== null) {
                 const parsedData = JSON.parse(jsonData);
                 console.log('parsedData==>', parsedData);
@@ -78,7 +78,7 @@ const OtherWorldDitail = ({ navigation, route }) => {
         <View style={{ flex: 1, position: 'relative' }}>
 
             <ImageBackground
-                source={require('../accets/backgr.png')}
+                source={require('../accets/newBgr.jpeg')}
                 style={{ flex: 1 }}>
                 <ScrollView>
 

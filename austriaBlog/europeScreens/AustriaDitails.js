@@ -4,12 +4,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { austria } from "../data/austria";
 
 const AustriaDitails = ({ navigation }) => {
+    
     console.log(austria)
     return (
         <View style={styles.conteiner}>
 
             <ImageBackground
-                source={require('../accets/backgr.png')}
+                source={require('../accets/newBgr.jpeg')}
             >
 
                 <ScrollView style={{ paddingTop: 40, }}>

@@ -10,7 +10,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Europe from "./routs/Europe";
 import OtherWorld from "./routs/OtherWorld";
 import MyProfile from "./routs/MyProfile";
-import WebViewScreen from "./routs/WebView";
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -20,7 +19,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-//  
+//  #36212c  #8c1633
 
 const App = () => {
 
@@ -33,8 +32,8 @@ const App = () => {
       }}>
       
         <Tab.Screen name="My Profile" component={MyProfile} options={{
-          tabBarActiveBackgroundColor: '#36212c',
-          tabBarInactiveBackgroundColor: '#8c1633',
+          tabBarActiveBackgroundColor: '#292c33',
+          tabBarInactiveBackgroundColor: '#946002',
           tabBarLabelStyle: { color: '#fff' },
           tabBarIcon: ({ focused }) => {
             return (
@@ -45,8 +44,8 @@ const App = () => {
         
         <Tab.Screen  name="Europe" component={Europe}
           options={{
-          tabBarActiveBackgroundColor: '#36212c',
-          tabBarInactiveBackgroundColor: '#8c1633',
+          tabBarActiveBackgroundColor: '#292c33',
+          tabBarInactiveBackgroundColor: '#946002',
           tabBarLabelStyle: { color: '#fff' },
           tabBarIcon: ({ focused }) => {
             return (
@@ -55,8 +54,8 @@ const App = () => {
           }
         }} />
         <Tab.Screen name="Other World" component={OtherWorld} options={{
-          tabBarActiveBackgroundColor: '#36212c',
-          tabBarInactiveBackgroundColor: '#8c1633',
+          tabBarActiveBackgroundColor: '#292c33',
+          tabBarInactiveBackgroundColor: '#946002',
           tabBarLabelStyle: { color: '#fff' },
           tabBarIcon: ({ focused }) => {
             return (

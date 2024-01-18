@@ -23,7 +23,7 @@ export const austria = [
         description: 'Schloss Velden is a historic castle turned luxury hotel on the shores of Lake Wörthersee. Its elegant architecture and lakeside location make it a picturesque setting for photography, and the manicured gardens add to its charm.',
         admission: 'Free (hotel facilities may have fees)',
         tips: `Capture the castle's reflection in the lake during the calm early morning hours. The soft light enhances the beauty of the surroundings.`,
-        photo: [{ pict: require('../accets/velden/velden_1.png') },
+        photo: [{ pict: require('../accets/SchlossVelden1.jpeg') },
         { pict: require('../accets/velden/velden_2.png') }],
         latitude: 46.612965800587695, 
         longitude: 14.042345653855392

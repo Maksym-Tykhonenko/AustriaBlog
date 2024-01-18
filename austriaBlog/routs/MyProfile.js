@@ -9,10 +9,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const MyProfile = () => {
-  const [writingUsername, setWritingUsername] = useState('');
+  const [writingUsernameq, setWritingUsernameq] = useState('');
   const [username, setUsername] = useState('');
-  const [avatar, setAvatar] = useState(null);
-  const [showWriteAttractionsBlock, setShowWriteAttractionsBlock] = useState(false);
+  const [avatarq, setAvatarq] = useState(null);
+  const [showWriteAttractionsBlockqqq, setShowWriteAttractionsBlockqqq] = useState(false);
   ////////
   const [selectedData, setSelectedData] = useState('');
   const [city, setCity] = useState('')
@@ -32,14 +32,14 @@ const MyProfile = () => {
 
   useEffect(() => {
     setData(); // Запис даних у AsyncStorage при зміні bankName, info або photo
-  }, [username, avatar, attractionList]);
+  }, [username, avatarq, attractionList]);
 
   // Функція для збереження даних у AsyncStorage
   const setData = async () => {
     try {
       const data = {
         username,
-        avatar,
+        avatarq,
         attractionList,
       }
       const jsonData = JSON.stringify(data);
@@ -56,7 +56,7 @@ const MyProfile = () => {
       if (jsonData !== null) {
         const parsedData = JSON.parse(jsonData);
         console.log('parsedData==>', parsedData);
-        setAvatar(parsedData.avatar);
+        setAvatarq(parsedData.avatarq);
         setUsername(parsedData.username);
         setAttractionList(parsedData.attractionList);
         console.log('дані завантажені з AsyncStorage');
@@ -81,7 +81,7 @@ const MyProfile = () => {
                 
         //const newSelectedPhotos = [...selectPhoto, { sel: response.assets[0].uri }];
         //console.log('newSelectedPhotos==>', newSelectedPhotos)
-        setAvatar(response.assets[0].uri);
+        setAvatarq(response.assets[0].uri);
 
       } else {
         console.log('Вибір скасовано');
@@ -106,7 +106,7 @@ const MyProfile = () => {
     setCity('');
     setSelectedData('');
 
-    setShowWriteAttractionsBlock(false)
+    setShowWriteAttractionsBlockqqq(false)
   };
 
   //<Text style={{ fontSize: 25, color: '#000' }}>Save</Text>
@@ -115,7 +115,7 @@ const MyProfile = () => {
 
       <ImageBackground
         style={{ flex: 1 }}
-        source={require('../accets/backgr.png')}
+        source={require('../accets/newBgr.jpeg')}
       >
         <ScrollView style={{ marginHorizontal: 20, marginTop: 40 }}>
 
@@ -137,8 +137,8 @@ const MyProfile = () => {
                       <TextInput
                         placeholderTextColor='#000'
                         placeholder="Name..."
-                        value={writingUsername}
-                        onChangeText={setWritingUsername}
+                        value={writingUsernameq}
+                        onChangeText={setWritingUsernameq}
                         style={{
                           shadowOffset: { width: 3, height: 4 },
                           shadowOpacity: .8,
@@ -148,7 +148,7 @@ const MyProfile = () => {
                       />
                       <TouchableOpacity
                         style={styles.btnName}
-                        onPress={() => setUsername(writingUsername)}
+                        onPress={() => setUsername(writingUsernameq)}
                       >
                         <AntDesign name='check' style={{ color: '#fff', fontSize: 30 }} />
                     
@@ -160,9 +160,9 @@ const MyProfile = () => {
               </View>
 
               {/**Add PhotoBlock */}
-              {avatar ? (
+              {avatarq ? (
                 <View style={{ ...styles.photoBlock, position: 'relative', width: 150, marginBottom: 15 }}>
-                  <Image source={{ uri: avatar }} style={{ width: 150, height: 150, borderRadius: 150 }} />
+                  <Image source={{ uri: avatarq }} style={{ width: 150, height: 150, borderRadius: 150 }} />
               
                   <TouchableOpacity
                     onPress={() => ImagePicer()}
@@ -190,9 +190,9 @@ const MyProfile = () => {
               {/** writeAttractionsBlock */}
               <View style={styles.attractionsBlock}>
 
-                {!showWriteAttractionsBlock ? (
+                {!showWriteAttractionsBlockqqq ? (
                   <TouchableOpacity
-                    onPress={() => { setShowWriteAttractionsBlock(true) }}
+                    onPress={() => { setShowWriteAttractionsBlockqqq(true) }}
                     style={styles.btnNewPlase}
                   >
                     <Text style={{ fontSize: 25, color: '#fff' }}>Add new place{' '}
@@ -203,7 +203,7 @@ const MyProfile = () => {
                   <View style={{ marginBottom: 15, position: 'relative' }}>
                     <View>
                       <TouchableOpacity
-                        onPress={() => { setShowWriteAttractionsBlock(false) }}
+                        onPress={() => { setShowWriteAttractionsBlockqqq(false) }}
                         style={{
                           position: 'absolute', right: 0,
                           borderRadius: 50,
@@ -215,8 +215,8 @@ const MyProfile = () => {
                           shadowOpacity: .8,
                           elevation: 9,
                           borderWidth: 1,
-                          borderColor: '#36212c',
-                          backgroundColor: '#36212c'
+                          borderColor: '#946002',
+                          backgroundColor: '#946002'
                         }}
                       >
                         <AntDesign name='close' style={{ color: '#fff', fontSize: 24 }} />
@@ -335,7 +335,7 @@ const MyProfile = () => {
                   attractionList.map((trip) => {
                     return (
                       <View
-                        style={{ marginBottom: 8, backgroundColor: '#8c1633', padding: 10, borderRadius: 15, }}
+                        style={{ marginBottom: 8, backgroundColor: '#946002', padding: 10, borderRadius: 15, }}
                         key={trip.id}
                       >
                         <Text style={{ color: '#043870' }}>{trip.data}</Text>
@@ -392,10 +392,10 @@ const styles = StyleSheet.create({
   btnNewPlase: {
     marginLeft: 4,
     //marginBottom: 15,
-    borderColor: '#36212c',
+    borderColor: '#946002',
     borderRadius: 10,
     borderWidth: 1,
-    backgroundColor: '#36212c',
+    backgroundColor: '#946002',
     width: 250,
     height: 50,
     justifyContent: 'center',
@@ -410,8 +410,8 @@ const styles = StyleSheet.create({
   },
   btnSaveAttraction: {
     marginLeft: 4,
-    backgroundColor: '#36212c',
-    borderColor: '#36212c',
+    backgroundColor: '#946002',
+    borderColor: '#946002',
     borderRadius: 30,
     borderWidth: 1,
     width: 120,

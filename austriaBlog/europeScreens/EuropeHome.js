@@ -7,8 +7,7 @@ import { country } from '../data/country';
 import { uid } from "uid";
 
 const EuropeHome = ({ navigation }) => {
-    const [countrysList, setCountrysList] = useState('');
-    //console.log('countrysList==>', countrysList)
+    
     ///////////////////////////////
     const [country, setCountry] = useState('');
     const [city, setCity] = useState('');
@@ -19,6 +18,9 @@ const EuropeHome = ({ navigation }) => {
     const [tips, setTips] = useState('')
     const [image, setImage] = useState(null);///
     ///////////////////////////////
+    const [countrysListcountrysList, setCountrysListCountrysList] = useState([]);
+    //console.log('countrysListcountrysList==>', countrysListcountrysList)
+
     const [isModalVisible, setIsModalVisible] = useState(false);
     ///////////////////////////////////////////
     useEffect(() => {
@@ -27,13 +29,13 @@ const EuropeHome = ({ navigation }) => {
 
     useEffect(() => {
         setData(); // Запис даних у AsyncStorage при зміні bankName, info або photo
-    }, [countrysList]);
+    }, [countrysListcountrysList]);
 
     // Функція для збереження даних у AsyncStorage
     const setData = async () => {
         try {
             const data = {
-                countrysList,
+                countrysListcountrysList,
             }
             const jsonData = JSON.stringify(data);
             await AsyncStorage.setItem("EuropeHome", jsonData);
@@ -49,7 +51,7 @@ const EuropeHome = ({ navigation }) => {
             if (jsonData !== null) {
                 const parsedData = JSON.parse(jsonData);
                 console.log('parsedData==>', parsedData);
-                setCountrysList(parsedData.countrysList);
+                setCountrysListCountrysList(parsedData.countrysListcountrysList);
                 console.log('дані завантажені з AsyncStorage');
             }
             
@@ -60,9 +62,9 @@ const EuropeHome = ({ navigation }) => {
     
 
     //console.log('admission==>', admission);
-    const toggleSwitch = () => setAdmission(previousState => !previousState);
+    const toggleSwitchtoggleSwitch = () => setAdmission(previousState => !previousState);
 
-    const handlAddCountry = () => {
+    const handlAddCountryhandlAddCountry = () => {
 
         let newCountry = {
             country,
@@ -74,7 +76,7 @@ const EuropeHome = ({ navigation }) => {
             tips,
             id: uid(),
         };
-        setCountrysList([newCountry, ...countrysList]);
+        setCountrysListCountrysList([newCountry, ...countrysListcountrysList]);
 
         setCountry('');
         setCity('');
@@ -86,7 +88,7 @@ const EuropeHome = ({ navigation }) => {
         setIsModalVisible(false)
     };
 
-    const closeModal = () => {
+    const closeModalcloseModal = () => {
 
         setIsModalVisible(false);
         setCountry('');
@@ -103,7 +105,7 @@ const EuropeHome = ({ navigation }) => {
 
             <ImageBackground
                 style={{ flex: 1 }}
-                source={require('../accets/backgr.png')}
+                source={require('../accets/newBgr.jpeg')}
             >
                 <View style={{ width: '100%', alignItems: 'center', marginTop: 40 }}>
                     <Text style={{ color: '#fff', fontSize: 30, fontWeight: 'bold', }}>Europe :</Text>
@@ -112,6 +114,8 @@ const EuropeHome = ({ navigation }) => {
                 <View style={styles.counryBtnConteier}>
                     
                     <ScrollView>
+
+                        
                         <TouchableOpacity
                             onPress={() => { navigation.navigate("AustriaDetails") }}
                             style={{
@@ -133,15 +137,18 @@ const EuropeHome = ({ navigation }) => {
                             <Text style={styles.btnText}>Austria</Text>
                         </TouchableOpacity>
                     
-                        {countrysList && (countrysList.map(({ city, country, description, id, location, name, tips, admission }) =>
-                            <TouchableOpacity
-                                key={id}
-                                onPress={() => navigation.navigate("EuropeDitails", { city, country, description, location, name, tips, admission })}
-                                style={styles.btn}>
-                                <Text style={styles.btnText}>{country}</Text>
-                            </TouchableOpacity>
+                        {countrysListcountrysList.map(({ city, country, description, id, location, name, tips, admission }) => {
+                            return (
+                                <TouchableOpacity
+                                    key={id}
+                                    onPress={() => navigation.navigate("EuropeDitails", { city, country, description, location, name, tips, admission })}
+                                    style={styles.btn}>
+                                    <Text style={styles.btnText}>{country}</Text>
+                                </TouchableOpacity>)
+                        }
      
-                        ))}
+                        )
+                        }
                     </ScrollView>
                
                 </View>
@@ -149,8 +156,8 @@ const EuropeHome = ({ navigation }) => {
                 {/**btnModalOpen */}
                 <TouchableOpacity
                     onPress={() => setIsModalVisible(true)}
-                    style={ {...styles.btnAddCountry, borderRadius: 50}}>
-                    <Text style={{fontSize: 30, color: '#ccc', fontWeight: 'bold'}}>+</Text>
+                    style={{ ...styles.btnAddCountry, borderRadius: 50 }}>
+                    <Text style={{ fontSize: 30, color: '#ccc', fontWeight: 'bold' }}>+</Text>
                 </TouchableOpacity>
           
                 {/**ModalAddCountry */}
@@ -161,7 +168,7 @@ const EuropeHome = ({ navigation }) => {
                     visible={isModalVisible}>
                     
                 
-                    <View style={{ backgroundColor: '#551c30', flex: 1 }}>
+                    <View style={{ backgroundColor: '#292c33', flex: 1 }}>
                         <View style={{ marginTop: 50, marginLeft: 20 }}>
                             <ScrollView style={{ height: '100%' }}>
 
@@ -259,7 +266,7 @@ const EuropeHome = ({ navigation }) => {
                                         trackColor={{ false: '#81b0ff', true: '#767577' }}
                                         thumbColor={'#f5dd4b'}
                                         //ios_backgroundColor="#3e3e3e" !isEnabled ? '#f4f3f4' :
-                                        onValueChange={toggleSwitch}
+                                        onValueChange={toggleSwitchtoggleSwitch}
                                         value={admission}
                                     />
                                     {admission ? (
@@ -289,7 +296,7 @@ const EuropeHome = ({ navigation }) => {
                                 {/** add country Btn */}
                                 <View style={{ width: 250, alignItems: 'center' }}>
                                     <TouchableOpacity
-                                        onPress={() => handlAddCountry()}
+                                        onPress={() => handlAddCountryhandlAddCountry()}
                                         style={{
                                             borderWidth: 2,
                                             borderRadius: 50,
@@ -302,7 +309,7 @@ const EuropeHome = ({ navigation }) => {
                                             elevation: 9,
                                             borderColor: '#ccc'
                                         }}>
-                                        <Text style={{ fontWeight: 'bold', color: '#fff',  }}>ADD</Text>
+                                        <Text style={{ fontWeight: 'bold', color: '#fff', }}>ADD</Text>
                                     </TouchableOpacity>
                                 </View>
                                 
@@ -312,9 +319,9 @@ const EuropeHome = ({ navigation }) => {
                         </View>
                     
                         <TouchableOpacity
-                            onPress={() => closeModal()}
-                            style={{...styles.btnAddCountry, borderRadius: 50}}>
-                            <Text style={{...styles.btnText}}>X</Text>
+                            onPress={() => closeModalcloseModal()}
+                            style={{ ...styles.btnAddCountry, borderRadius: 50 }}>
+                            <Text style={{ ...styles.btnText }}>X</Text>
                         </TouchableOpacity>
                     </View>
                 </Modal>

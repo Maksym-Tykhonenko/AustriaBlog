@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const OtherWorldHome = ({ navigation }) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [countrysList, setCountrysList] = useState('');
+    const [countrysList, setCountrysList] = useState([]);
     console.log('countrysList==>', countrysList)
     ///////////////////////////////
     const [country, setCountry] = useState('');
@@ -98,7 +98,7 @@ const OtherWorldHome = ({ navigation }) => {
         <View style={{ flex: 1, position: 'relative' }}>
             <ImageBackground
                 style={{ flex: 1 }}
-                source={require('../accets/backgr.png')}
+                source={require('../accets/newBgr.jpeg')}
             >
                 <View style={{ width: '100%', alignItems: 'center', marginTop: 60, marginBottom: 20 }}>
                     <Text style={{ color: '#fff', fontSize: 30, fontWeight: 'bold', }}>Other World :</Text>
@@ -107,7 +107,7 @@ const OtherWorldHome = ({ navigation }) => {
                 <View style={{ alignItems: 'center' }}>
                     <ScrollView>
 
-                        {countrysList && (countrysList.map(({ id, city, country, description, location, name, tips, admission }) =>
+                        {countrysList.map(({ id, city, country, description, location, name, tips, admission }) =>
                             <TouchableOpacity
                                 onPress={() => { navigation.navigate("OtherWorldDetail", { city, country, description, location, name, tips, admission }) }}
                                 style={{
@@ -129,7 +129,7 @@ const OtherWorldHome = ({ navigation }) => {
                             >
                                 <Text style={{ fontSize: 25, color: '#ccc', fontWeight: 'bold' }}>{country}</Text>
                             </TouchableOpacity>
-                        ))}
+                        )}
 
 
                     </ScrollView>
@@ -169,7 +169,7 @@ const OtherWorldHome = ({ navigation }) => {
                     transparent={false}
                     visible={isModalVisible}
                 >
-                    <View style={{ backgroundColor: '#551c30', flex: 1 }}>
+                    <View style={{ backgroundColor: '#292c33', flex: 1 }}>
 
                         <View style={{ marginTop: 50, marginLeft: 20 }}>
                             <ScrollView style={{ height: '100%' }}>

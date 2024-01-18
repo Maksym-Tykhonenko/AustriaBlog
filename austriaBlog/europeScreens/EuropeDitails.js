@@ -10,9 +10,9 @@ import { austria } from "../data/austria";
 
 const EuropeDitails = ({ navigation, route }) => {
   // route.params
-  const [selectPhoto, setSelectPhoto] = useState(null);
-  const [coutry, setCoutry] = useState(route.params)
-  const { city, description, location, name, tips, admission } = coutry;
+  const [selectPhotoselectPhoto, setSelectPhotoSelectPhoto] = useState(null);
+  const [coutrycoutry, setCoutryCoutry] = useState(route.params)
+  const { city, description, location, name, tips, admission } = coutrycoutry;
   
   ///////////////////////////////////////////
   useEffect(() => {
@@ -21,13 +21,13 @@ const EuropeDitails = ({ navigation, route }) => {
 
   useEffect(() => {
     setData(); // Запис даних у AsyncStorage при зміні bankName, info або photo
-  }, [selectPhoto]);
+  }, [selectPhotoselectPhoto]);
 
   // Функція для збереження даних у AsyncStorage
   const setData = async () => {
     try {
       const data = {
-        selectPhoto,
+        selectPhotoselectPhoto,
       }
       const jsonData = JSON.stringify(data);
       await AsyncStorage.setItem("EuropeDitails", jsonData);
@@ -43,7 +43,7 @@ const EuropeDitails = ({ navigation, route }) => {
       if (jsonData !== null) {
         const parsedData = JSON.parse(jsonData);
         console.log('parsedData==>', parsedData);
-        setSelectPhoto(parsedData.selectPhoto);
+        setSelectPhotoSelectPhoto(parsedData.selectPhotoselectPhoto);
         console.log('дані завантажені з AsyncStorage');
       }
             
@@ -58,7 +58,7 @@ const EuropeDitails = ({ navigation, route }) => {
   //const [longitude, setLongitude] = useState('');
   //console.log('latitude longitude==>', latitude, longitude);
 
-  const ImagePicer = () => {
+  const ImagePicerImagePicer = () => {
     let options = {
       storageOptios: {
         path: 'image',
@@ -69,9 +69,9 @@ const EuropeDitails = ({ navigation, route }) => {
       if (!response.didCancel) {
         console.log('response==>', response.assets[0].uri);
                 
-        //const newSelectedPhotos = [...selectPhoto, { sel: response.assets[0].uri }];
+        //const newSelectedPhotos = [...selectPhotoselectPhoto, { sel: response.assets[0].uri }];
         //console.log('newSelectedPhotos==>', newSelectedPhotos)
-        setSelectPhoto(response.assets[0].uri);
+        setSelectPhotoSelectPhoto(response.assets[0].uri);
 
       } else {
         console.log('Вибір скасовано');
@@ -85,16 +85,16 @@ const EuropeDitails = ({ navigation, route }) => {
 
       <ImageBackground
         style={{ flex: 1 }}
-        source={require('../accets/backgr.png')}
+        source={require('../accets/newBgr.jpeg')}
       >
         
         <ScrollView>
           <View style={{ position: 'relative', paddingVertical: 40, paddingHorizontal: 20, flex: 1 }}>
           
             <View style={{ marginBottom: 15 }}>
-              {!selectPhoto ? (
+              {!selectPhotoselectPhoto ? (
                 <TouchableOpacity
-                  onPress={() => { ImagePicer() }}
+                  onPress={() => { ImagePicerImagePicer() }}
                   style={{
                     width: '100%',
                     height: 200, borderWidth: 2,
@@ -120,10 +120,10 @@ const EuropeDitails = ({ navigation, route }) => {
                       borderRadius: 10,
                       borderColor: '#ccc',
                     }}
-                    source={{ uri: selectPhoto }} />
+                    source={{ uri: selectPhotoselectPhoto }} />
                 
                   <TouchableOpacity
-                    onPress={() => { ImagePicer() }}
+                    onPress={() => { ImagePicerImagePicer() }}
                     style={{ position: 'absolute', right: -15, bottom: -15, backgroundColor: '#fff', borderRadius: 50 }}>
                     <MaterialIcons name='published-with-changes' style={{ color: '#3157c9', fontSize: 45 }} />
                   </TouchableOpacity>
